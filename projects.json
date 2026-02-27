@@ -1,0 +1,284 @@
+{
+    "projects": [
+        {
+            "id": "ad4p",
+            "type": "archive",
+            "order": 1,
+            "badge": "MLOps & Architecture",
+            "title": "AD4P",
+            "showSubtitle": false,
+            "subtitle": "AnomalyDetection4Pharma",
+            "layout": "normal",
+            "description": "Scalable Anomaly Detection System. A streaming-first architecture capable of detecting complex manufacturing anomalies (like concept drift and sensor freeze) via simulated sensor streams, where traditional baselines fail.",
+            "features": [
+                "Medallion Architecture in Spark",
+                "LSTM Autoencoders for Sensor Fusion",
+                "CI/CD Pipeline & Docker"
+            ],
+            "techTags": [
+                "Deep Learning",
+                "Multivariate Time Series",
+                "Streaming Inference"
+            ],
+            "toolStack": [
+                {
+                    "icon": "devicon-apachespark-original",
+                    "label": "PySpark"
+                },
+                {
+                    "icon": "devicon-pytorch-original",
+                    "label": "PyTorch"
+                },
+                {
+                    "icon": "devicon-docker-plain",
+                    "label": "Docker"
+                },
+                {
+                    "icon": "devicon-amazonwebservices-plain-wordmark",
+                    "label": "AWS"
+                }
+            ],
+            "media": {
+                "type": "gif",
+                "src": "Assets/img/pharma_demo.gif",
+                "alt": "Anomaly Detection Demo"
+            },
+            "demoButton": {
+                "label": "🚀 Open Demo",
+                "url": "https://huggingface.co/spaces/jpalmagarro/PharmaGuard"
+            },
+            "codeButton": {
+                "label": "💻 Source Code",
+                "url": "https://github.com/jpalmagarro/AnomalyDetection4Pharma"
+            },
+            "showMicrocopy": false,
+            "microcopy": "Note: Allow 30s for cold start.",
+            "domain": "MLOps & Architecture",
+            "descriptionShort": "Streaming anomaly detection handling concept drift in simulated sensor streams via Spark & LSTM autoencoders."
+        },
+        {
+            "id": "enterprise-dq",
+            "type": "featured",
+            "order": 2,
+            "badge": "Data Engineering & Reliability",
+            "title": "Enterprise Data Quality Monitor",
+            "showSubtitle": false,
+            "subtitle": "",
+            "layout": "reverse",
+            "description": "Defensive Data Pipeline & Observability. An automated ELT pipeline designed to survive in hostile environments. Includes a custom 'Chaos Monkey' engine to intentionally corrupt data and test resilience.",
+            "features": [
+                "Dual-DAG Orchestration in Airflow",
+                "Automated Anomaly Detection with dbt & Elementary",
+                "'Revenue at Risk' Financial Dashboard"
+            ],
+            "techTags": [
+                "Chaos Engineering",
+                "Observability",
+                "Pipeline Resilience"
+            ],
+            "toolStack": [
+                {
+                    "icon": "ph ph-snowflake",
+                    "label": "Snowflake"
+                },
+                {
+                    "icon": "ph ph-stack",
+                    "label": "dbt"
+                },
+                {
+                    "icon": "devicon-apacheairflow-plain",
+                    "label": "Airflow"
+                },
+                {
+                    "icon": "devicon-python-plain",
+                    "label": "Python"
+                }
+            ],
+            "media": {
+                "type": "gif",
+                "src": "Assets/img/quality_demo.gif",
+                "alt": "Data Quality Demo"
+            },
+            "demoButton": {
+                "label": "🚀 Open Demo",
+                "url": "https://enterprise-data-quality-monitor.streamlit.app/"
+            },
+            "codeButton": {
+                "label": "💻 Source Code",
+                "url": "https://github.com/jpalmagarro/Enterprise-Data-Quality-Monitor"
+            },
+            "showMicrocopy": false,
+            "microcopy": "",
+            "domain": "Data Engineering & Reliability",
+            "descriptionShort": "Robust ELT pipeline featuring an automated 'Chaos Monkey' testing engine and custom Observability dashboards."
+        },
+        {
+            "id": "ab-decision-engine",
+            "type": "archive",
+            "order": 2,
+            "badge": "Data Science & Product Analytics",
+            "title": "AB Decision Engine",
+            "showSubtitle": false,
+            "subtitle": "",
+            "layout": "normal",
+            "description": "Statistical Product Decision Engine. A rigorous A/B testing simulator designed to prevent common pitfalls like Sample Ratio Mismatch (SRM) and Simpson’s Paradox in product experiments.",
+            "features": [
+                "Hybrid Engine: Frequentist (Z-Test) & Bayesian (Beta)",
+                "Sequential Testing (O'Brien-Fleming) for early stopping",
+                "Revenue Simulation (Zero-Inflated Lognormal) for B2B"
+            ],
+            "techTags": [
+                "Decision Science",
+                "Bayesian Simulation",
+                "Sequential Testing"
+            ],
+            "toolStack": [
+                {
+                    "icon": "devicon-python-plain",
+                    "label": "SciPy"
+                },
+                {
+                    "icon": "devicon-streamlit-plain",
+                    "label": "Streamlit"
+                },
+                {
+                    "icon": "devicon-pandas-plain",
+                    "label": "Pandas"
+                },
+                {
+                    "icon": "devicon-plotly-plain",
+                    "label": "Plotly"
+                }
+            ],
+            "media": {
+                "type": "gif",
+                "src": "Assets/img/ab_demo.gif",
+                "alt": "AB Testing Demo"
+            },
+            "demoButton": {
+                "label": "🚀 Open Demo",
+                "url": "https://ab-decision-engine.streamlit.app/"
+            },
+            "codeButton": {
+                "label": "💻 Source Code",
+                "url": "https://github.com/jpalmagarro/AB-Decision-Engine"
+            },
+            "showMicrocopy": false,
+            "microcopy": "",
+            "domain": "Data Science & Product Analytics",
+            "descriptionShort": "Statistical A/B testing simulator using hybrid frequentist/Bayesian models to prevent SRM and Simpson's Paradox."
+        },
+        {
+            "id": "modern-commerce",
+            "type": "featured",
+            "order": 1,
+            "badge": "Analytics Engineering",
+            "title": "Modern Commerce Growth Engine",
+            "showSubtitle": false,
+            "subtitle": "Unifying Backend & Frontend Data for Growth Accounting",
+            "layout": "normal",
+            "description": "An ELT architecture bridging the gap between transactional backend data and frontend web logs. By generating a synthetic 'Digital Footprint' and joining it with orders via dbt, we created a Single Source of Truth for attribution.",
+            "features": [
+                "Synthetic Data Generation of 1M+ Web Events",
+                "Complex SQL Sessionization using Window Functions",
+                "Star Schema Data Modeling for Cross-Filtering"
+            ],
+            "techTags": [
+                "Attribution Modeling",
+                "Data Engineering",
+                "Growth Accounting"
+            ],
+            "toolStack": [
+                {
+                    "icon": "ph ph-stack",
+                    "label": "dbt"
+                },
+                {
+                    "icon": "ph ph-snowflake",
+                    "label": "Snowflake"
+                },
+                {
+                    "icon": "devicon-python-plain",
+                    "label": "Python"
+                },
+                {
+                    "icon": "ph ph-chart-bar",
+                    "label": "PowerBI"
+                }
+            ],
+            "media": {
+                "type": "gif",
+                "src": "Assets/img/mcge.gif",
+                "alt": "Modern Commerce Growth Engine Demo"
+            },
+            "demoButton": {
+                "label": "🎬 Watch Video",
+                "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            },
+            "codeButton": {
+                "label": "💻 Source Code",
+                "url": "https://github.com/jpalmagarro/Modern-Commerce-Growth-Engine"
+            },
+            "showMicrocopy": false,
+            "microcopy": "Runs locally in DuckDB. No cloud credentials needed.",
+            "domain": "Analytics Engineering",
+            "descriptionShort": "Designed an ELT pipeline to unify frontend logs with backend orders, addressing the attribution 'blind spot'."
+        },
+        {
+            "id": "taskflow-analytics",
+            "type": "featured",
+            "order": 3,
+            "badge": "Product Analytics & BI",
+            "title": "TaskFlow Analytics",
+            "showSubtitle": false,
+            "subtitle": "SaaS Product Intelligence",
+            "layout": "reverse",
+            "description": "Strategic B2B dashboard designed to analyze MRR stagnation and identify churn drivers. Discovered the 'Brazil Anomaly' (3x higher churn) and the gap between Predicted vs. Realized LTV by modeling subscription lifecycles.",
+            "features": [
+                "Star Schema with custom Date & Key Measures tables",
+                "Cohort Analysis via Window Functions for 12-month retention",
+                "Advanced DAX (Time Intelligence, USERELATIONSHIP)"
+            ],
+            "techTags": [
+                "Cohort Analysis",
+                "LTV Modeling",
+                "Data Engineering"
+            ],
+            "toolStack": [
+                {
+                    "icon": "ph ph-chart-bar",
+                    "label": "PowerBI"
+                },
+                {
+                    "icon": "devicon-postgresql-plain",
+                    "label": "PostgreSQL"
+                },
+                {
+                    "icon": "devicon-python-plain",
+                    "label": "Python"
+                },
+                {
+                    "icon": "devicon-docker-plain",
+                    "label": "Docker"
+                }
+            ],
+            "media": {
+                "type": "gif",
+                "src": "Assets/img/taskflow.gif",
+                "alt": "TaskFlow Analytics Dashboard Walkthrough"
+            },
+            "demoButton": {
+                "label": "🎬 Watch Video",
+                "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            },
+            "codeButton": {
+                "label": "💻 Source Code",
+                "url": "https://github.com/jpalmagarro/TaskFlow_Analytics"
+            },
+            "showMicrocopy": false,
+            "microcopy": "Pipeline runs locally in Docker orchestrating Python and PostgreSQL.",
+            "domain": "Product Analytics & BI",
+            "descriptionShort": "Strategic B2B dashboard. Identifies revenue leakage and high-churn segments (e.g., 'Brazil Anomaly') via Cohort Analysis."
+        }
+    ]
+}

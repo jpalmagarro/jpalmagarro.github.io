@@ -63,6 +63,10 @@ ul {
 }
 
 /* UTILITIES */
+.mobile-break {
+    display: none;
+}
+
 .container {
     max-width: var(--container-width);
     margin: 0 auto;
@@ -772,6 +776,10 @@ ul {
         display: block;
     }
 
+    .mobile-break {
+        display: block;
+    }
+
     .hero-title {
         font-size: 2.5rem;
     }
@@ -814,5 +822,10 @@ ul {
 
     .archive-actions {
         margin-top: 16px;
+    }
+
+    .archive-card-actions {
+        margin-top: 24px;
+        gap: 12px;
     }
 }
