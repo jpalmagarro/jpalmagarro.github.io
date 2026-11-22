@@ -60,10 +60,12 @@
 .map{padding:8px;min-width:0}
 .map svg{display:block;width:100%;height:auto}
 .map text{font-family:var(--f-mono);font-size:11px;fill:var(--muted)}
-.map .cl{font-size:10px;letter-spacing:.08em;text-transform:uppercase;fill:var(--muted);opacity:.7}
-.map .pt{fill:var(--surface);stroke:var(--fg);stroke-width:1.5;transition:r .25s}
-.map .pt.hit{fill:var(--accent);stroke:var(--accent)}
+.map .pt{fill:var(--surface);stroke:var(--g);stroke-width:2;transition:r .25s}
+.map .pt.hit{fill:var(--g)}
 .map .lbl.hit{fill:var(--fg)}
+.g-llm{--g:var(--accent)} .g-ml{--g:var(--ok)} .g-data{--g:var(--warn)} .g-analytics{--g:var(--muted)}
+.groups{list-style:none;margin:0;padding:0 18px 10px;display:flex;flex-wrap:wrap;gap:4px 16px;font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.groups li::before{content:"";display:inline-block;width:9px;height:9px;border-radius:99px;border:2px solid var(--g);margin-right:6px;vertical-align:-1px}
 .map .ray{stroke:var(--accent);stroke-width:1.5;stroke-dasharray:3 4}
 .map .q{fill:var(--accent)}
 .map .qring{fill:none;stroke:var(--accent);stroke-width:1;opacity:.35}
@@ -78,8 +80,7 @@
 .hits b{font-family:var(--f-display);font-weight:500;font-size:18px}
 .hits .sc{font-family:var(--f-mono);font-size:12px;color:var(--accent);font-variant-numeric:tabular-nums}
 .hits p{margin:0;font-size:13px;color:var(--muted)}
-.note{font-family:var(--f-mono);font-size:11px;color:var(--warn);padding:0 18px 12px}
-.map .zone{fill:var(--accent-soft);opacity:.55}
+.note{font-family:var(--f-mono);font-size:12px;color:var(--muted);padding:0 18px 14px;margin:0}
 .map .pt{cursor:pointer}
 .map a:focus-visible .pt{stroke:var(--accent);stroke-width:3}
 .why{margin:0;padding:10px 18px;border-top:1px solid var(--rule);font-size:14px}
@@ -122,12 +123,13 @@
     <div class="panel">
       <div class="qs" role="group" aria-label="Queries" data-es-aria="Consultas"><span>query:</span></div>
       <div class="map-wrap">
-        <div class="map"><svg id="emb" viewBox="0 0 520 340" role="img" aria-label="2D map of projects grouped into LLM, ML and data; the chosen query links to its three nearest projects" data-es-aria="Mapa 2D de proyectos agrupados en LLM, ML y datos; la consulta elegida se une a los tres proyectos más cercanos"></svg></div>
+        <div class="map"><svg id="emb" viewBox="0 0 520 340" role="img" aria-label="2D projection of the embeddings of my projects; the chosen query links to its three most similar projects" data-es-aria="Proyección 2D de los embeddings de mis proyectos; la consulta elegida se une a sus tres proyectos más parecidos"></svg></div>
         <ol class="hits" id="hits" aria-live="polite"></ol>
       </div>
+      <ul class="groups" id="groups"></ul>
       <p class="why" id="why" aria-live="polite"></p>
-      <p class="howto" data-es="Cómo leerlo: cada punto es un proyecto, agrupado por temas. Cerca = se parecen. Las líneas unen tu consulta con sus 3 proyectos más cercanos. Pulsa un punto para abrir su código.">How to read it: each dot is a project, grouped by topic. Close = similar. The lines join your query to its 3 nearest projects. Click a dot to open its code.</p>
-      <p class="note" data-es="Nota honesta: los puntos los he colocado a mano, no salen de un modelo. La puntuación es solo la distancia en este mapa.">Honest note: I placed the dots by hand, they are not computed by a model. The score is just distance on this map.</p>
+      <p class="howto" data-es="Cómo leerlo: cada punto es un proyecto. Las líneas unen tu consulta con sus 3 proyectos más parecidos según el modelo. Pulsa un punto para abrir su código.">How to read it: each dot is a project. The lines join your query to its 3 most similar projects according to the model. Click a dot to open its code.</p>
+      <p class="note" id="note"></p>
     </div>
   </section>
 
@@ -180,6 +182,7 @@
 </main>
 
 <script src="../Assets/js/i18n.js"></script>
+<script src="../Assets/js/embeddings.js"></script>
 <script>
 (() => {
   // Eventos reales del CV (año decimal). Cada uno es un "warm restart".
@@ -191,27 +194,42 @@
     {t:2026.35, k:["itbid"], w:["AI Engineer · agents, RAG, MCP", "AI Engineer · agentes, RAG, MCP"]},
   ];
   const x0 = 2020.5, x1 = 2027.25, now = 2026.9;
-  const W = 800, H = 300, L = 44, R = 16, T = 16, B = 34;
-  const X = t => L + (t - x0) / (x1 - x0) * (W - L - R);
-  const ymax = 2.6, Y = v => T + (1 - v / ymax) * (H - T - B);
+  const svgC = document.getElementById("curve");
+  // El viewBox mide lo mismo que la pantalla: 1 unidad = 1 px, así el texto no encoge en móvil.
+  let W, H, X, Y;
+  const L = 40, R = 14, T = 16, B = 34, ymax = 2.6;
+  const medir = () => {
+    W = Math.max(300, Math.round(svgC.getBoundingClientRect().width) || 800);
+    H = W < 560 ? 220 : 300;
+    X = t => L + (t - x0) / (x1 - x0) * (W - L - R);
+    Y = v => T + (1 - v / ymax) * (H - T - B);
+  };
   // Pérdida: decae con el tiempo; cada evento añade un pico pequeño que también decae (warm restart).
   const loss = t => {
     let v = 0.32 + 2.0 * Math.exp(-(t - x0) / 1.6);
     for (const e of E.slice(1)) if (t >= e.t) v += 0.28 * Math.exp(-(t - e.t) / 0.18);
     return v + 0.035 * Math.sin(t * 41) + 0.02 * Math.sin(t * 97);
   };
-  const pts = []; for (let t = x0; t <= now + 1e-9; t += 0.01) pts.push([X(t), Y(loss(t))]);
-  const d = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join("");
-  const fut = []; for (let t = now; t <= x1; t += 0.05) fut.push([X(t), Y(0.32 + 2.0 * Math.exp(-(t - x0) / 1.6) - 0.06 * (t - now))]);
-  const fd = fut.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join("");
-  let s = "";
-  for (let v = 0; v <= 2.5; v += 0.5) s += `<line class="grid" x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}"/><text x="${L-8}" y="${Y(v)+4}" text-anchor="end">${v.toFixed(1)}</text>`;
-  for (let y = 2021; y <= 2027; y++) s += `<text x="${X(y)}" y="${H-10}" text-anchor="middle">${y}</text>`;
-  s += `<path class="area" d="${d}L${X(now)} ${Y(0)}L${X(x0)} ${Y(0)}Z"/><path class="loss" d="${d}"/><path class="future" d="${fd}"/>`;
-  E.forEach((e, i) => { const cx = X(e.t), cy = Y(loss(e.t)) - 16;
-    s += `<g class="ev"><line class="grid" x1="${cx}" x2="${cx}" y1="${cy+9}" y2="${Y(loss(e.t))}"/><circle cx="${cx}" cy="${cy}" r="9"/><text x="${cx}" y="${cy}">${i+1}</text></g>`; });
-  s += `<circle class="now" cx="${X(now)}" cy="${Y(loss(now))}" r="4"/><text class="tag" x="${X(now)-6}" y="${Y(loss(now))+24}" text-anchor="end">still training</text>`;
-  document.getElementById("curve").innerHTML = s;
+  const camino = p => p.map((q, i) => (i ? "L" : "M") + q[0].toFixed(1) + " " + q[1].toFixed(1)).join("");
+  function dibujar() {
+    medir();
+    const pts = []; for (let t = x0; t <= now + 1e-9; t += 0.01) pts.push([X(t), Y(loss(t))]);
+    const fut = []; for (let t = now; t <= x1; t += 0.05) fut.push([X(t), Y(0.32 + 2.0 * Math.exp(-(t - x0) / 1.6) - 0.06 * (t - now))]);
+    const d = camino(pts);
+    let s = "";
+    for (let v = 0; v <= 2.5; v += 0.5) s += `<line class="grid" x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}"/><text x="${L-8}" y="${Y(v)+4}" text-anchor="end">${v.toFixed(1)}</text>`;
+    const paso = W < 420 ? 2 : 1; // en pantallas muy estrechas, un año sí y otro no
+    for (let y = 2021; y <= 2027; y += paso) s += `<text x="${X(y)}" y="${H-10}" text-anchor="middle">${y}</text>`;
+    s += `<path class="area" d="${d}L${X(now)} ${Y(0)}L${X(x0)} ${Y(0)}Z"/><path class="loss" d="${d}"/><path class="future" d="${camino(fut)}"/>`;
+    E.forEach((e, i) => { const cx = X(e.t), cy = Y(loss(e.t)) - 16;
+      s += `<g class="ev"><line class="grid" x1="${cx}" x2="${cx}" y1="${cy+9}" y2="${Y(loss(e.t))}"/><circle cx="${cx}" cy="${cy}" r="9"/><text x="${cx}" y="${cy}">${i+1}</text></g>`; });
+    s += `<circle class="now" cx="${X(now)}" cy="${Y(loss(now))}" r="4"/><text class="tag" x="${X(now)-6}" y="${Y(loss(now))+24}" text-anchor="end">still training</text>`;
+    svgC.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    svgC.innerHTML = s;
+  }
+  dibujar();
+  let ancho = W;
+  new ResizeObserver(() => { const w = Math.round(svgC.getBoundingClientRect().width); if (w && Math.abs(w - ancho) > 2) { ancho = w; dibujar(); } }).observe(svgC);
   const tx = a => i18n.t(a[0], a[1] ?? a[0]);
   const legend = () => document.getElementById("legend").innerHTML = E.map((e, i) => `<li><span class="k">${i+1}</span><span><b>${tx(e.k)}</b> · ${tx(e.w)}</span></li>`).join("");
   document.addEventListener("langchange", legend);
@@ -219,81 +237,132 @@
 })();
 
 (() => {
-  // Proyectos colocados a mano por grupos. x,y en el viewBox 520x340.
-  // c = grupo; u = enlace (null = código privado).
+  // Posiciones y puntuaciones calculadas por scripts/embeddings/calcular.py (Assets/js/embeddings.js).
+  // Aquí solo van los textos y el grupo, que es mi etiqueta, no del modelo. u = enlace (null = código privado).
   const GH = "https://github.com/jpalmagarro/";
-  const P = [
-    {n:["itbid assistant","Asistente itbid"], c:"llm", x:400, y:70, u:null,
-     d:["Orchestrator with RAG and MCP tools in production.","Orquestador con RAG y herramientas MCP en producción."]},
-    {n:["COSORA"], c:"llm", x:350, y:115, u:GH+"RAG-UPCSchool-Project",
-     d:["Graph RAG with hybrid search and Neo4j.","Graph RAG con búsqueda híbrida y Neo4j."]},
-    {n:["Freelance RAG","RAG freelance"], c:"llm", x:455, y:120, u:null,
-     d:["Private RAG for a client, with answer validation.","RAG privado para un cliente, con validación de respuestas."]},
-    {n:["OutfitMatch"], c:"ml", x:430, y:185, u:GH+"TFG_OUTFITMATCH",
-     d:["Siamese network that learns embeddings to match garments: retrieval, but with images.","Red siamesa que aprende embeddings para combinar prendas: retrieval, pero con imágenes."]},
-    {n:["AD4P"], c:"ml", x:320, y:240, u:GH+"AnomalyDetection4Pharma",
-     d:["LSTM autoencoder: drift and frozen sensors in pharma manufacturing.","Autoencoder LSTM: deriva y sensores congelados en fabricación farmacéutica."]},
-    {n:["Data Quality Monitor"], c:"data", x:150, y:110, u:GH+"Enterprise-Data-Quality-Monitor",
-     d:["ELT pipeline with a Chaos Monkey; dbt + Elementary flag the bad data.","Pipeline ELT con Chaos Monkey; dbt + Elementary detectan los datos malos."]},
-    {n:["Commerce Growth Engine"], c:"data", x:90, y:150, u:GH+"Modern-Commerce-Growth-Engine",
-     d:["dbt + Snowflake: one source of truth for attribution.","dbt + Snowflake: una sola fuente de verdad para atribución."]},
-    {n:["TaskFlow Analytics"], c:"analytics", x:170, y:250, u:GH+"TaskFlow_Analytics",
-     d:["MRR and churn: found the Brazil anomaly (3× churn).","MRR y churn: encontró la anomalía de Brasil (3× churn)."]},
-    {n:["AB Decision Engine"], c:"analytics", x:90, y:275, u:GH+"AB-Decision-Engine",
-     d:["A/B tests without SRM or Simpson's paradox.","Tests A/B sin SRM ni paradoja de Simpson."]},
-  ];
-  const C = {llm:{l:"LLM", x:410, y:34}, ml:{l:"ML · DL", x:385, y:300}, data:{l:"Data", x:120, y:66}, analytics:{l:"Analytics", x:130, y:318}};
-  // Clave fija; etiqueta y explicación cambian con el idioma.
+  const P = {
+    itbid:       {n:["itbid assistant","Asistente itbid"], c:"llm", u:null,
+                  d:["Orchestrator with RAG and MCP tools in production.","Orquestador con RAG y herramientas MCP en producción."]},
+    cosora:      {n:["COSORA"], c:"llm", u:GH+"RAG-UPCSchool-Project",
+                  d:["Graph RAG with hybrid search and Neo4j.","Graph RAG con búsqueda híbrida y Neo4j."]},
+    freelance:   {n:["Freelance RAG","RAG freelance"], c:"llm", u:null,
+                  d:["Private RAG for a client, with answer validation.","RAG privado para un cliente, con validación de respuestas."]},
+    outfitmatch: {n:["OutfitMatch"], c:"ml", u:GH+"TFG_OUTFITMATCH",
+                  d:["Siamese network that learns embeddings to match garments: retrieval, but with images.","Red siamesa que aprende embeddings para combinar prendas: retrieval, pero con imágenes."]},
+    ad4p:        {n:["AD4P"], c:"ml", u:GH+"AnomalyDetection4Pharma",
+                  d:["LSTM autoencoder: drift and frozen sensors in pharma manufacturing.","Autoencoder LSTM: deriva y sensores congelados en fabricación farmacéutica."]},
+    dqm:         {n:["Data Quality Monitor"], c:"data", u:GH+"Enterprise-Data-Quality-Monitor",
+                  d:["ELT pipeline with a Chaos Monkey; dbt + Elementary flag the bad data.","Pipeline ELT con Chaos Monkey; dbt + Elementary detectan los datos malos."]},
+    commerce:    {n:["Commerce Growth Engine"], c:"data", u:GH+"Modern-Commerce-Growth-Engine",
+                  d:["dbt + Snowflake: one source of truth for attribution.","dbt + Snowflake: una sola fuente de verdad para atribución."]},
+    taskflow:    {n:["TaskFlow Analytics"], c:"analytics", u:GH+"TaskFlow_Analytics",
+                  d:["MRR and churn: found the Brazil anomaly (3× churn).","MRR y churn: encontró la anomalía de Brasil (3× churn)."]},
+    abtest:      {n:["AB Decision Engine"], c:"analytics", u:GH+"AB-Decision-Engine",
+                  d:["A/B tests without SRM or Simpson's paradox.","Tests A/B sin SRM ni paradoja de Simpson."]},
+  };
+  const G = {llm:["LLM"], ml:["ML · DL"], data:["Data"], analytics:["Analytics"]};
+  // Etiqueta y explicación de cada consulta. Las explicaciones describen el resultado real del modelo.
   const Q = {
-    rag:   {x:395, y:100, l:["RAG"],
-            w:["All three ground an LLM in real documents; the difference is where the data lives.","Las tres anclan un LLM en documentos reales; cambia dónde viven los datos."]},
-    agent: {x:430, y:60,  l:["agents","agentes"],
-            w:["Routing each question to the right tool is the core of the itbid assistant.","Enrutar cada pregunta a la herramienta adecuada es el núcleo del asistente de itbid."]},
-    emb:   {x:410, y:165, l:["embeddings"],
-            w:["OutfitMatch was retrieval before I called it RAG: same idea, images instead of text.","OutfitMatch ya era retrieval antes de llamarlo RAG: la misma idea, con imágenes en vez de texto."]},
-    anom:  {x:215, y:195, l:["anomalies","anomalías"],
-            w:["The same skill in three areas: <b>sensors</b> (ML), <b>corrupted data</b> (Data) and <b>churn</b> (Analytics). The query lands between groups on purpose.","La misma habilidad en tres áreas: <b>sensores</b> (ML), <b>datos corruptos</b> (Data) y <b>churn</b> (Analytics). La consulta cae entre grupos a propósito."]},
-    pipe:  {x:125, y:125, l:["pipelines"],
-            w:["Where most of my data work lives: data that arrives clean and on time.","Donde vive la mayor parte de mi trabajo de datos: que lleguen limpios y a tiempo."]},
-    exp:   {x:120, y:255, l:["experiments","experimentos"],
+    rag:   {l:["RAG"],
+            w:["The three RAG projects come first: all of them ground an LLM in real documents; the difference is where the data lives.","Los tres proyectos de RAG salen primero: todos anclan un LLM en documentos reales; cambia dónde viven los datos."]},
+    agent: {l:["agents","agentes"],
+            w:["Only the itbid assistant is really an agent, and it comes first. The next two are noise: with nine short descriptions, a small model has little to tell apart.","Solo el asistente de itbid es de verdad un agente, y sale primero. Los dos siguientes son ruido: con nueve descripciones cortas, un modelo pequeño tiene poco que distinguir."]},
+    emb:   {l:["embeddings"],
+            w:["OutfitMatch was retrieval before I called it RAG: same idea, images instead of text. COSORA comes next: its hybrid search uses e5 embeddings.","OutfitMatch ya era retrieval antes de llamarlo RAG: la misma idea, con imágenes en vez de texto. Le sigue COSORA: su búsqueda híbrida usa embeddings e5."]},
+    anom:  {l:["anomalies","anomalías"],
+            w:["The same skill in three areas: <b>sensors</b> (ML), <b>corrupted data</b> (Data) and <b>churn</b> (Analytics).","La misma habilidad en tres áreas: <b>sensores</b> (ML), <b>datos corruptos</b> (Data) y <b>churn</b> (Analytics)."]},
+    pipe:  {l:["pipelines"],
+            w:["Where most of my data work lives: data that arrives clean and on time. AD4P shows up for its PySpark ETL.","Donde vive la mayor parte de mi trabajo de datos: que lleguen limpios y a tiempo. AD4P aparece por su ETL en PySpark."]},
+    exp:   {l:["experiments","experimentos"],
             w:["Deciding with data, without fooling yourself with statistics.","Decidir con datos sin engañarse con la estadística."]},
   };
   const tx = a => i18n.t(a[0], a[1] ?? a[0]);
+  const EMB = window.EMB;
+  const todas = Object.values(EMB.sim).flatMap(o => Object.values(o));
+  const smin = Math.min(...todas), smax = Math.max(...todas);
+  const barra = s => 15 + 85 * (s - smin) / (smax - smin); // la barra estira el rango estrecho de e5; el número es el real
+
   let cur = "rag";
   const svg = document.getElementById("emb"), hits = document.getElementById("hits"), qs = document.querySelector(".qs");
   Object.keys(Q).forEach((k, i) => qs.insertAdjacentHTML("beforeend", `<button type="button" aria-pressed="${i===0}" data-q="${k}"></button>`));
 
-  // Zona de cada grupo: elipse que envuelve sus puntos.
-  function zones(){
-    let z = "";
-    for (const k in C){
-      const m = P.filter(p => p.c === k), xs = m.map(p => p.x), ys = m.map(p => p.y);
-      const cx = (Math.min(...xs)+Math.max(...xs))/2, cy = (Math.min(...ys)+Math.max(...ys))/2;
-      const rx = (Math.max(...xs)-Math.min(...xs))/2 + 60, ry = (Math.max(...ys)-Math.min(...ys))/2 + 34;
-      z += `<ellipse class="zone" cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}"/><text class="cl" x="${C[k].x}" y="${C[k].y}" text-anchor="middle">${C[k].l}</text>`;
-    }
-    return z;
+  // Encaja las coordenadas 2D en el ancho real (misma escala en x e y para no deformar distancias).
+  function encajar(w, h, pad) {
+    const xy = [...Object.values(EMB.proyectos), ...Object.values(EMB.consultas)];
+    const xs = xy.map(p => p[0]), ys = xy.map(p => p[1]);
+    const lo = [Math.min(...xs), Math.min(...ys)], hi = [Math.max(...xs), Math.max(...ys)];
+    const e = Math.min((w - 2 * pad.x) / (hi[0] - lo[0]), (h - 2 * pad.y) / (hi[1] - lo[1]));
+    const cx = w / 2 - (lo[0] + hi[0]) / 2 * e, cy = h / 2 - (lo[1] + hi[1]) / 2 * e;
+    return p => [cx + p[0] * e, cy + p[1] * e];
   }
-  function run(k){
-    cur = k; const q = Q[k];
-    const r = P.map(p => ({...p, sim: Math.max(0, 1 - Math.hypot(p.x - q.x, p.y - q.y) / 420)})).sort((a, b) => b.sim - a.sim);
-    const top = new Set(r.slice(0, 3).map(p => p.n[0]));
-    let s = zones();
-    r.slice(0, 3).forEach(p => s += `<line class="ray" x1="${q.x}" y1="${q.y}" x2="${p.x}" y2="${p.y}"/>`);
-    P.forEach(p => { const h = top.has(p.n[0]) ? " hit" : "";
-      const dot = `<circle class="pt${h}" cx="${p.x}" cy="${p.y}" r="${h ? 7 : 5}"><title>${tx(p.n)} — ${tx(p.d)}</title></circle><text class="lbl${h}" x="${p.x}" y="${p.y - 11}" text-anchor="middle">${tx(p.n)}</text>`;
+
+  // Coloca etiquetas sin que se pisen: prueba arriba, abajo, derecha, izquierda; si no cabe, no la pone.
+  function etiquetas(items, w, h, puntos) {
+    // Los puntos también son obstáculos: una etiqueta no debe tapar ningún punto.
+    const puestas = puntos.map(([x, y, r]) => ({x0: x - r - 1, x1: x + r + 1, y0: y - r - 1, y1: y + r + 1})), s = [];
+    const choca = b => b.x0 < 2 || b.x1 > w - 2 || b.y0 < 2 || b.y1 > h - 2 ||
+      puestas.some(o => b.x0 < o.x1 && b.x1 > o.x0 && b.y0 < o.y1 && b.y1 > o.y0);
+    for (const it of items) {
+      const ancho = it.t.length * 6.8, alto = 13;
+      const op = [[it.x, it.y - it.r - 5, "middle"], [it.x, it.y + it.r + 14, "middle"],
+                  [it.x + it.r + 5, it.y + 4, "start"], [it.x - it.r - 5, it.y + 4, "end"]];
+      for (let [x, y, a] of op) {
+        if (a === "middle") x = Math.min(Math.max(x, ancho / 2 + 3), w - ancho / 2 - 3); // cerca del borde, se mete hacia dentro
+        const x0 = a === "middle" ? x - ancho / 2 : a === "start" ? x : x - ancho;
+        const b = {x0, x1: x0 + ancho, y0: y - alto + 3, y1: y + 3};
+        if (!choca(b)) { puestas.push(b); s.push(`<text class="${it.cls}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="${a}"${it.style || ""}>${it.t}</text>`); break; }
+      }
+    }
+    return s.join("");
+  }
+
+  function run(k) {
+    cur = k;
+    // 1 unidad del viewBox = 1 px de pantalla, así el texto mide lo mismo en móvil y en escritorio.
+    const w = Math.max(280, Math.round(svg.getBoundingClientRect().width) || 520);
+    const estrecho = w < 480, h = Math.round(estrecho ? w * 0.85 : w * 0.66);
+    const pos = encajar(w, h, estrecho ? {x: 24, y: 26} : {x: 70, y: 34});
+    const sim = EMB.sim[k];
+    const r = Object.keys(P).map(id => ({id, ...P[id], sim: sim[id], xy: pos(EMB.proyectos[id])})).sort((a, b) => b.sim - a.sim);
+    const top = new Set(r.slice(0, 3).map(p => p.id));
+    const q = pos(EMB.consultas[k]);
+
+    let s = "";
+    r.slice(0, 3).forEach(p => s += `<line class="ray" x1="${q[0]}" y1="${q[1]}" x2="${p.xy[0]}" y2="${p.xy[1]}"/>`);
+    r.forEach(p => { const h = top.has(p.id) ? " hit" : "";
+      const dot = `<circle class="pt g-${p.c}${h}" cx="${p.xy[0]}" cy="${p.xy[1]}" r="${h ? 7 : 5}"><title>${tx(p.n)} — ${tx(p.d)}</title></circle>`;
       s += p.u ? `<a href="${p.u}" target="_blank" rel="noopener" aria-label="${tx(p.n)}">${dot}</a>` : dot; });
-    s += `<circle class="qring" cx="${q.x}" cy="${q.y}" r="16"/><circle class="q" cx="${q.x}" cy="${q.y}" r="5"/><text x="${q.x - 12}" y="${q.y + 24}" text-anchor="end" style="fill:var(--accent)">"${tx(q.l)}"</text>`;
+    s += `<circle class="qring" cx="${q[0]}" cy="${q[1]}" r="16"/><circle class="q" cx="${q[0]}" cy="${q[1]}" r="5"/>`;
+    // Prioridad: la consulta, luego los 3 resultados; el resto solo en pantallas anchas.
+    const items = [{t: `"${tx(Q[k].l)}"`, x: q[0], y: q[1], r: 16, cls: "", style: ' style="fill:var(--accent)"'},
+      ...r.filter(p => top.has(p.id)).map(p => ({t: tx(p.n), x: p.xy[0], y: p.xy[1], r: 7, cls: "lbl hit"})),
+      ...(estrecho ? [] : r.filter(p => !top.has(p.id)).map(p => ({t: tx(p.n), x: p.xy[0], y: p.xy[1], r: 5, cls: "lbl"})))];
+    s += etiquetas(items, w, h, [...r.map(p => [p.xy[0], p.xy[1], top.has(p.id) ? 7 : 5]), [q[0], q[1], 6]]);
+    svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
     svg.innerHTML = s;
-    hits.innerHTML = r.slice(0, 3).map(p => `<li><span class="row"><b>${tx(p.n)}</b><span class="sc">${p.sim.toFixed(2)}</span></span>
-      <span class="simbar"><i style="width:${(p.sim*100).toFixed(0)}%"></i></span><p>${tx(p.d)}</p>
-      <span class="meta2"><span>${C[p.c].l}</span>${p.u ? `<a href="${p.u}" target="_blank" rel="noopener">${i18n.t("code →","código →")}</a>` : `<span>${i18n.t("private code","código privado")}</span>`}</span></li>`).join("");
-    document.getElementById("why").innerHTML = tx(q.w);
+
+    hits.innerHTML = r.slice(0, 3).map(p => `<li><span class="row"><b>${tx(p.n)}</b><span class="sc">${p.sim.toFixed(3)}</span></span>
+      <span class="simbar"><i style="width:${barra(p.sim).toFixed(0)}%"></i></span><p>${tx(p.d)}</p>
+      <span class="meta2"><span>${tx(G[p.c])}</span>${p.u ? `<a href="${p.u}" target="_blank" rel="noopener">${i18n.t("code →","código →")}</a>` : `<span>${i18n.t("private code","código privado")}</span>`}</span></li>`).join("");
+    document.getElementById("why").innerHTML = tx(Q[k].w);
     qs.querySelectorAll("button").forEach(b => { b.setAttribute("aria-pressed", b.dataset.q === k); b.textContent = tx(Q[b.dataset.q].l); });
   }
+
+  function textosFijos() {
+    document.getElementById("groups").innerHTML = Object.keys(G).map(g => `<li class="g-${g}">${tx(G[g])}</li>`).join("") +
+      `<li style="list-style:none">${i18n.t("← colours are my labels, not the model's", "← los colores son mis etiquetas, no del modelo")}</li>`;
+    const v = Math.round(EMB.varianza2d * 100);
+    document.getElementById("note").innerHTML = i18n.t(
+      `How it's computed: each project description and each query goes through <code>${EMB.modelo}</code> (${EMB.dim} dimensions). The score is the real cosine similarity; e5 keeps them all in a narrow range, so the bar stretches it. The map is a 2D PCA that keeps only ${v}% of the variance: a dot that looks close is not always the most similar. One thing I didn't expect: the model places the A/B test next to the ML projects, not with Analytics.`,
+      `Cómo se calcula: cada descripción de proyecto y cada consulta pasan por <code>${EMB.modelo}</code> (${EMB.dim} dimensiones). La puntuación es la similitud coseno real; e5 las deja todas en un rango estrecho, así que la barra lo estira. El mapa es una PCA a 2D que conserva solo el ${v} % de la varianza: un punto que parece cerca no siempre es el más parecido. Algo que no esperaba: el modelo pone el test A/B junto a los proyectos de ML, no con Analytics.`);
+  }
+
   qs.addEventListener("click", e => { const b = e.target.closest("button"); if (b) run(b.dataset.q); });
-  document.addEventListener("langchange", () => run(cur));
+  document.addEventListener("langchange", () => { textosFijos(); run(cur); });
+  textosFijos();
   run("rag");
+  let ancho = 0;
+  new ResizeObserver(() => { const w = Math.round(svg.getBoundingClientRect().width); if (w && Math.abs(w - ancho) > 2) { ancho = w; run(cur); } }).observe(svg);
 })();
 </script>
 </body>
