@@ -10,12 +10,48 @@
  */
 const PROJECTS = [
     {
-        id: "ad4p",
+        id: "rag-upcschool",
         type: "archive",
         order: 1,
-        badge: "MLOps & Architecture",
+        title: "COSORA (Graph RAG)",
+        domain: "AI Engineering · LLMs",
+        descriptionShort: "Graph RAG over Spanish construction site reports (UPC School team project). I built the hybrid retrieval (BM25 + multilingual-e5 with RRF), the Neo4j knowledge-graph module and the Cloud Run deployment.",
+        toolStack: [
+            { icon: "ph ph-books", label: "RAG" },
+            { icon: "ph ph-graph", label: "Neo4j" },
+            { icon: "ph ph-cloud", label: "GCP Cloud Run" }
+        ],
+        demoButton: null,
+        codeButton: {
+            label: "💻 Source Code",
+            url: "https://github.com/jpalmagarro/RAG-UPCSchool-Project"
+        }
+    },
+    {
+        id: "outfitmatch",
+        type: "archive",
+        order: 2,
+        title: "OutfitMatch",
+        domain: "Deep Learning · Bachelor's Thesis",
+        descriptionShort: "Outfit recommendation from a single garment image. Compares an autoencoder and a Siamese network for visual compatibility embeddings, served in a Streamlit app.",
+        toolStack: [
+            { icon: "ph ph-brain", label: "Deep Learning" },
+            { icon: "ph ph-eye", label: "Computer Vision" },
+            { icon: "devicon-streamlit-plain", label: "Streamlit" }
+        ],
+        demoButton: null,
+        codeButton: {
+            label: "💻 Source Code",
+            url: "https://github.com/jpalmagarro/TFG_OUTFITMATCH"
+        }
+    },
+    {
+        id: "ad4p",
+        type: "featured",
+        order: 1,
+        badge: "ML Engineering & MLOps",
         title: "AD4P",
-        showSubtitle: false,
+        showSubtitle: true,
         subtitle: "AnomalyDetection4Pharma",
         layout: "normal",
         description: "Scalable Anomaly Detection System. A streaming-first architecture capable of detecting complex manufacturing anomalies (like concept drift and sensor freeze) via simulated sensor streams, where traditional baselines fail.",
@@ -42,7 +78,7 @@ const PROJECTS = [
         },
         demoButton: {
             label: "🚀 Open Demo",
-            url: "https://huggingface.co/spaces/jpalmagarro/PharmaGuard"
+            url: "https://huggingface.co/spaces/jillpg/PharmaGuard"
         },
         codeButton: {
             label: "💻 Source Code",
@@ -100,7 +136,7 @@ const PROJECTS = [
     {
         id: "ab-decision-engine",
         type: "archive",
-        order: 2,
+        order: 3,
         badge: "Data Science & Product Analytics",
         title: "AB Decision Engine",
         showSubtitle: false,
@@ -144,7 +180,7 @@ const PROJECTS = [
     {
         id: "modern-commerce",
         type: "featured",
-        order: 1,
+        order: 3,
         badge: "Analytics Engineering",
         title: "Modern Commerce Growth Engine",
         showSubtitle: false,
@@ -187,8 +223,8 @@ const PROJECTS = [
     },
     {
         id: "taskflow-analytics",
-        type: "featured",
-        order: 3,
+        type: "archive",
+        order: 4,
         badge: "Product Analytics & BI",
         title: "TaskFlow Analytics",
         showSubtitle: false,

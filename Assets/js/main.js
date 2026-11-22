@@ -101,7 +101,7 @@ function renderArchiveRow(project) {
                             </td>
                             <td>
                                 <div class="archive-actions">
-                                    <a href="${project.demoButton.url}" title="${project.demoButton.label}"><i class="ph ph-play-circle"></i></a>
+                                    ${project.demoButton ? `<a href="${project.demoButton.url}" target="_blank" title="${project.demoButton.label}"><i class="ph ph-play-circle"></i></a>` : ''}
                                     <a href="${project.codeButton.url}" target="_blank" title="View Code"><i class="ph ph-github-logo"></i></a>
                                 </div>
                             </td>
@@ -123,7 +123,7 @@ function renderArchiveCard(project) {
                         ${tags}
                     </div>
                     <div class="project-actions archive-card-actions">
-                        <a href="${project.demoButton.url}" target="_blank" class="btn btn-primary" style="padding: 8px 16px; font-size: 0.85rem;">${project.demoButton.label}</a>
+                        ${project.demoButton ? `<a href="${project.demoButton.url}" target="_blank" class="btn btn-primary" style="padding: 8px 16px; font-size: 0.85rem;">${project.demoButton.label}</a>` : ''}
                         <a href="${project.codeButton.url}" target="_blank" class="btn btn-text" style="font-size: 0.85rem;">${project.codeButton.label}</a>
                     </div>
                 </div>`;
