@@ -1,0 +1,21 @@
+name: verificar
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      # ubuntu-latest ya trae google-chrome; el script lo encuentra solo.
+      - run: node scripts/verificar.mjs
