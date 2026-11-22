@@ -11,7 +11,7 @@ import { tmpdir, homedir } from "node:os";
 import vm from "node:vm";
 
 const RAIZ = resolve(dirname(new URL(import.meta.url).pathname), "..");
-const PAGINAS = ["index.html", "404.html", "data/index.html", "ai/index.html"];
+const PAGINAS = ["index.html", "404.html", "data/index.html", "ai/index.html", "changelog/index.html"];
 const fallos = [];
 const fallo = (donde, msg) => fallos.push(`${donde}: ${msg}`);
 
@@ -112,7 +112,7 @@ async function navegador(chrome) {
   const esperar = ms => new Promise(r => setTimeout(r, ms));
 
   const CASOS = [];
-  const rutas = [["/", "portada"], ["/?f=data", "portada ?f=data"], ["/data/", "/data"], ["/ai/", "/ai"], ["/no-existe", "404"]];
+  const rutas = [["/", "portada"], ["/?f=data", "portada ?f=data"], ["/data/", "/data"], ["/ai/", "/ai"], ["/changelog/", "/changelog"], ["/no-existe", "404"]];
   for (const [ruta, nombre] of rutas)
     for (const lang of ["en", "es"])
       for (const [ancho, alto, movil] of [[1280, 900, false], [375, 740, true]])
@@ -175,7 +175,7 @@ if (!process.argv.includes("--sin-navegador")) {
     const antes = fallos.length;
     try {
       const n = await navegador(chrome);
-      console.log(`navegador: ${fallos.length > antes ? "✗" : "✓"} (${n} casos: 5 rutas × EN/ES × escritorio/móvil)`);
+      console.log(`navegador: ${fallos.length > antes ? "✗" : "✓"} (${n} casos: 6 rutas × EN/ES × escritorio/móvil)`);
     } catch (e) { fallo("navegador", e.message); }
   }
 }
