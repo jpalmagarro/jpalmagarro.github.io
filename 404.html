@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hallucination detected | Jill Palma Garro</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/Assets/css/comun.css">
+<style>
+.wrap{min-height:100vh;align-content:center}
+.out{padding:16px 18px;font-family:var(--f-mono);font-size:14px;line-height:1.8;overflow-wrap:anywhere}
+.out .k{color:var(--muted)}
+.out .bad{color:var(--warn)}
+.go{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--f-mono);font-size:14px}
+.go a{text-underline-offset:4px;text-decoration-color:var(--rule)}
+.go a:hover{text-decoration-color:var(--accent)}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <nav class="top" aria-label="Navigation" data-es-aria="Navegación">
+    <a href="/">← Jill Palma Garro</a>
+    <span class="lang" role="group" aria-label="Language"><button type="button" data-l="en">EN</button><button type="button" data-l="es">ES</button></span>
+  </nav>
+  <header>
+    <h1>Hallucination detected</h1>
+    <p class="lede" data-es="Esta página no está en mis datos de entrenamiento. Mejor no me la invento.">This page isn't in my training data. Better not to make it up.</p>
+  </header>
+  <div class="panel out" role="status">
+    <div><span class="k">query:</span> <span id="path">/</span></div>
+    <div><span class="k">retrieved:</span> <span data-es="0 documentos">0 documents</span></div>
+    <div><span class="k">grounded:</span> <span class="bad">false</span></div>
+    <div><span class="k">action:</span> <span data-es="no responder">refuse to answer</span></div>
+  </div>
+  <nav class="go" aria-label="Pages" data-es-aria="Páginas">
+    <a href="/" data-es="← volver a empezar">← start over</a>
+    <a href="/data/">/data</a>
+    <a href="/ai/">/ai</a>
+  </nav>
+</main>
+<script src="/Assets/js/i18n.js"></script>
+<script>document.getElementById("path").textContent = location.pathname;</script>
+</body>
+</html>

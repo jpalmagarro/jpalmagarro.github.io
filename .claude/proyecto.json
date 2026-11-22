@@ -1,0 +1,14 @@
+{
+  "$comentario": "Contrato del proyecto con el harness (~/harness). Lo leen /verificar, /entregar y /revisar. Web estática sin build: no hay nada que instalar.",
+  "nombre": "web-jpalmagarro",
+  "rama_principal": "main",
+  "produccion": {
+    "url": "https://jpalmagarro.github.io",
+    "despliega_desde": "main"
+  },
+  "verificar": "node scripts/verificar.mjs",
+  "antes_de_commit": "node scripts/verificar.mjs --sin-navegador",
+  "preparar_worktree": "",
+  "ci_obligatoria": ["verificar"],
+  "revisores": []
+}

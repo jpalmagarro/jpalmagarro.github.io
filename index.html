@@ -1,232 +1,222 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jill Palma Garro | Analytics & Data Engineer</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jill Palma Garro | AI & Data Engineer</title>
+<meta name="description" content="Jill Palma Garro, AI & Data Engineer in Barcelona. LLM systems (RAG, agents, MCP) on top of data pipelines that hold up in production.">
+<meta name="author" content="Jill Palma Garro">
+<link rel="canonical" href="https://jpalmagarro.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jpalmagarro.github.io/">
+<meta property="og:title" content="Jill Palma Garro | AI & Data Engineer">
+<meta property="og:description" content="Jill Palma Garro, AI & Data Engineer in Barcelona. LLM systems (RAG, agents, MCP) on top of data pipelines that hold up in production.">
+<meta property="og:image" content="https://jpalmagarro.github.io/Assets/img/og-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Jill Palma Garro | AI & Data Engineer">
+<meta name="twitter:description" content="Jill Palma Garro, AI & Data Engineer in Barcelona. LLM systems (RAG, agents, MCP) on top of data pipelines that hold up in production.">
+<meta name="twitter:image" content="https://jpalmagarro.github.io/Assets/img/og-preview.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RZ1JDPNTXJ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-RZ1JDPNTXJ');</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one column. The human writes in serif, the model answers in mono. Prompt → completions → proof (projects). */
+:root{
+  --bg:#F6F7F9; --surface:#FFFFFF; --fg:#14161C; --muted:#5D6472; --rule:#DCE0E7;
+  --accent:#2C46C9; --accent-soft:#E4E8FB; --warn:#9A5B00;
+  --f-display:"Newsreader", Georgia, "Times New Roman", serif;
+  --f-body:"Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"Geist Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1116; --surface:#171A21; --fg:#E7E9EE; --muted:#9AA1AE; --rule:#2A2F3A;
+  --accent:#93A4FF; --accent-soft:#1F2647; --warn:#E3A44A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1116; --surface:#171A21; --fg:#E7E9EE; --muted:#9AA1AE; --rule:#2A2F3A;
+  --accent:#93A4FF; --accent-soft:#1F2647; --warn:#E3A44A; color-scheme:dark}
 
-    <!-- Meta Tags -->
-    <meta name="description"
-        content="Portfolio of Jill Palma Garro - Analytics & Data Engineer. Specialized in building end-to-end data systems and bridging the gap between Engineering reliability and Data Science intelligence.">
-    <meta name="author" content="Jill Palma Garro">
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:880px;margin:0 auto;padding-block:clamp(32px,7vw,88px) 48px;display:grid;gap:56px}
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://jillpalma.com/">
-    <meta property="og:title" content="Jill Palma Garro | Analytics & Data Engineer">
-    <meta property="og:description" content="Engineering Data for Reliability & Intelligence.">
-    <meta property="og:image" content="Assets/img/og-preview.png">
+/* Prompt */
+.prompt{display:grid;gap:20px}
+.line{font-family:var(--f-display);font-size:clamp(34px,6.4vw,68px);line-height:1.08;letter-spacing:-.01em;text-wrap:balance;margin:0;font-weight:400}
+.line .done{font-family:var(--f-mono);font-size:.82em;color:var(--accent);letter-spacing:-.02em}
+.caret{display:inline-block;width:.08em;height:.9em;background:var(--accent);vertical-align:-.08em;margin-left:.06em;animation:blink 1.05s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.caret{animation:none}}
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://jillpalma.com/">
-    <meta property="twitter:title" content="Jill Palma Garro | Analytics & Data Engineer">
-    <meta property="twitter:description" content="Engineering Data for Reliability & Intelligence.">
-    <meta property="twitter:image" content="Assets/img/og-preview.png">
+.menu{background:var(--surface);border:1px solid var(--rule);border-radius:10px;max-width:560px;padding:6px;margin:0;list-style:none;box-shadow:0 1px 2px rgb(0 0 0/.04),0 8px 24px -12px rgb(0 0 0/.18)}
+.opt{display:grid;grid-template-columns:minmax(0,1fr) 112px 52px;gap:12px;align-items:center;padding:9px 10px;border-radius:6px;cursor:pointer;font-family:var(--f-mono);font-size:15px}
+.opt[aria-selected="true"]{background:var(--accent-soft)}
+.opt .w{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.opt.joke .w{color:var(--muted);font-style:italic}
+.bar{height:6px;background:var(--rule);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:3px;transition:width .35s cubic-bezier(.2,.8,.2,1)}
+.p{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted);font-size:13px}
+.hint{font-family:var(--f-mono);font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center}
+kbd{font-family:var(--f-mono);font-size:11px;border:1px solid var(--rule);border-bottom-width:2px;border-radius:4px;padding:0 5px;background:var(--surface)}
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
+.temp{display:flex;align-items:center;gap:10px}
+.temp input{accent-color:var(--accent);width:140px}
+.temp output{font-variant-numeric:tabular-nums;min-width:3ch;color:var(--fg)}
 
-    <!-- Devicon (Brand Logos) -->
-    <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+.go{display:none;align-items:center;gap:14px;flex-wrap:wrap}
+.go.on{display:flex}
+.go a{font-family:var(--f-body);font-weight:500;background:var(--fg);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:8px}
+.go a:focus-visible,.opt:focus-visible,.links a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.go span{color:var(--muted);font-size:14px}
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+/* Identity strip */
+.who{display:flex;flex-wrap:wrap;gap:10px 28px;align-items:baseline;border-top:1px solid var(--rule);padding-top:20px}
+.who p{margin:0;max-width:52ch;color:var(--muted)}
+.who p b{color:var(--fg);font-weight:500}
+.links{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--f-mono);font-size:14px}
+.links a{color:var(--fg);text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:4px}
+.links a:hover{text-decoration-color:var(--accent)}
+.mail{user-select:all}
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="Assets/css/styles.css">
+/* Projects as "sources" */
+h2{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin:0 0 14px}
+.cites{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.cite{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:18px;display:grid;gap:8px;align-content:start;min-width:0}
+.cite .n{font-family:var(--f-mono);font-size:12px;color:var(--accent)}
+.cite h3{margin:0;font-family:var(--f-display);font-weight:500;font-size:22px;line-height:1.15}
+.cite p{margin:0;font-size:14px;color:var(--muted)}
+.tag{font-family:var(--f-mono);font-size:11px;border:1px solid var(--rule);border-radius:99px;padding:1px 8px;justify-self:start;color:var(--muted)}
+.cite[data-hit="1"]{border-color:var(--accent)}
+.cite h3 a{color:inherit;text-decoration:none}
+.cite h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent)}
+.cite h3 a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-    <!-- Icons -->
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-
-    <!-- Google Analytics 4 (Placeholder) -->
-
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RZ1JDPNTXJ"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-RZ1JDPNTXJ');
-    </script>
+footer{font-family:var(--f-mono);font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 22px;border-top:1px solid var(--rule);padding-top:18px}
+.menu:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.topbar{display:flex;justify-content:flex-end;margin-bottom:-32px}
+.lang{display:inline-flex;border:1px solid var(--rule);border-radius:99px;overflow:hidden;font-family:var(--f-mono);font-size:12px}
+.lang button{font:inherit;background:none;border:0;color:var(--muted);padding:3px 10px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.lang button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+@media (max-width:520px){.opt{grid-template-columns:minmax(0,1fr) 64px 44px;font-size:14px}}
+</style>
 </head>
-
 <body>
 
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container nav-container">
-            <a href="#" class="nav-logo">Jill Palma Garro</a>
+<main class="wrap">
+  <div class="topbar"><span class="lang" role="group" aria-label="Language"><button type="button" data-l="en">EN</button><button type="button" data-l="es">ES</button></span></div>
 
-            <div class="nav-links">
-                <a href="#projects" class="nav-link">Projects</a>
-                <a href="#about" class="nav-link">About</a>
-                <a href="#contact" class="nav-link">Contact</a>
-                <a href="Assets/Jill_Palma_Garro_Web_Resume.pdf" target="_blank" class="btn btn-outline-sm">
-                    <i class="ph ph-file-pdf"></i> Resume
-                </a>
-            </div>
+  <section class="prompt" aria-label="Autocomplete" data-es-aria="Autocompletado">
+    <h1 class="line" id="line">Jill Palma Garro <span data-es="es">is</span><span id="done" class="done"></span><span class="caret" aria-hidden="true"></span></h1>
+    <ul class="menu" id="menu" role="listbox" tabindex="0" aria-label="Possible next words" data-es-aria="Siguientes palabras posibles"></ul>
+    <div class="hint">
+      <span data-es="<kbd>↑</kbd> <kbd>↓</kbd> elegir · <kbd>Tab</kbd> aceptar"><kbd>↑</kbd> <kbd>↓</kbd> choose · <kbd>Tab</kbd> accept</span>
+      <label class="temp" for="temp">temperature
+        <input id="temp" type="range" min="0.1" max="2" step="0.1" value="1">
+        <output id="tout" for="temp">1.0</output>
+      </label>
+    </div>
+    <div class="go" id="go"><a href="#" id="golink">Enter →</a><span id="gonote"></span></div>
+  </section>
 
-            <button class="mobile-menu-btn" aria-label="Toggle Menu">
-                <i class="ph ph-list"></i>
-            </button>
-        </div>
-
-        <!-- Mobile Menu Overlay -->
-        <div class="mobile-menu">
-            <a href="#projects" class="mobile-link">Projects</a>
-            <a href="#about" class="mobile-link">About</a>
-            <a href="#contact" class="mobile-link">Contact</a>
-            <a href="Assets/Jill_Palma_Garro_Web_Resume.pdf" target="_blank" class="btn btn-outline">Resume</a>
-        </div>
+  <section class="who" aria-label="Who" data-es-aria="Quién es">
+    <p data-es="<b>AI &amp; Data Engineer en Barcelona.</b> Construyo sistemas con LLM (RAG, agentes, MCP) sobre pipelines de datos que aguantan en producción. Posgrado en IA con Deep Learning en la UPC."><b>AI &amp; Data Engineer in Barcelona.</b> I build LLM systems (RAG, agents, MCP) on top of data pipelines that hold up in production. Postgraduate in AI with Deep Learning at UPC.</p>
+    <nav class="links" aria-label="Contact" data-es-aria="Contacto">
+      <a href="Assets/Jill_Palma_Garro_Web_Resume.pdf" target="_blank" rel="noopener">CV (PDF)</a>
+      <a href="https://github.com/jpalmagarro" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/jpalmagarro/" target="_blank" rel="noopener">LinkedIn</a>
+      <span class="mail">jpalmagarro@gmail.com</span>
     </nav>
+  </section>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container hero-content">
-            <div class="status-badge">
-                <span class="status-dot"></span> Available for New Roles • Based in Barcelona
-            </div>
+  <section aria-labelledby="src-h">
+    <h2 id="src-h" data-es="Fuentes · 3 de 7 proyectos">Sources · 3 of 7 projects</h2>
+    <div class="cites">
+      <article class="cite" data-f="ai"><span class="n">[1]</span><h3><a href="https://github.com/jpalmagarro/RAG-UPCSchool-Project" target="_blank" rel="noopener">COSORA</a></h3><p data-es="Graph RAG sobre partes de obra. Búsqueda híbrida (BM25 + e5 con RRF), grafo en Neo4j y despliegue en Cloud Run.">Graph RAG over construction site reports. Hybrid search (BM25 + e5 with RRF), Neo4j graph, deployed on Cloud Run.</p><span class="tag">/ai · LLM</span></article>
+      <article class="cite" data-f="ai"><span class="n">[2]</span><h3><a href="https://github.com/jpalmagarro/AnomalyDetection4Pharma" target="_blank" rel="noopener">AD4P</a></h3><p data-es="Detección de anomalías en streaming para fabricación farmacéutica: concept drift y sensores congelados. PySpark y autoencoders LSTM.">Streaming anomaly detection for pharma manufacturing: concept drift and frozen sensors. PySpark and LSTM autoencoders.</p><span class="tag">/ai · ML</span></article>
+      <article class="cite" data-f="data"><span class="n">[3]</span><h3><a href="https://github.com/jpalmagarro/Enterprise-Data-Quality-Monitor" target="_blank" rel="noopener">Data Quality Monitor</a></h3><p data-es="Pipeline ELT defensivo con un «Chaos Monkey» que corrompe datos a propósito para probar que el sistema aguanta.">Defensive ELT pipeline with a “Chaos Monkey” that corrupts data on purpose to prove the system holds.</p><span class="tag">/data · Pipelines</span></article>
+    </div>
+  </section>
 
-            <h1 class="hero-title">
-                Engineering Data for<br>
-                <span class="highlight">Reliability & Intelligence.</span>
-            </h1>
+  <footer>
+    <a href="changelog/">v2026.11</a>
+    <span><a href="data/">/data</a> · <a href="ai/">/ai</a></span>
+  </footer>
+</main>
 
-            <h2 class="hero-subtitle">
-                Computer Scientist bridging the gap between reliable data engineering and business intelligence. I build
-                resilient, production-ready pipelines that power data-driven decisions.
-            </h2>
+<script src="Assets/js/i18n.js"></script>
+<script>
+(() => {
+  // Logits: a T=1 salen AI .50 / Data .35 / ML .14 (con la visita desde el CV de Data se invierten AI y Data).
+  const base = [
+    // w = [inglés, español]. En español la profesión va sin artículo ("es Data Engineer").
+    {w:["an AI Engineer", "AI Engineer"],   l:Math.log(.50), to:"/ai",   f:"ai"},
+    {w:["a Data Engineer", "Data Engineer"], l:Math.log(.35), to:"/data", f:"data"},
+    {w:["an ML Engineer", "ML Engineer"],   l:Math.log(.14), to:"/ai",   f:"ai"},
+    {w:["a person who reads the docs first", "alguien que lee la documentación antes"], l:Math.log(.007), joke:true},
+    {w:["a coffee-to-SQL pipeline", "un pipeline de café a SQL"], l:Math.log(.003), joke:true},
+  ];
+  const $ = id => document.getElementById(id);
+  let src = "ai", sel = 0, rows = [];
 
-            <div class="hero-actions">
-                <a href="#projects" class="btn btn-primary" style="text-align: center; line-height: 1.2;">View
-                    Selected<br class="mobile-break"> Work ↓</a>
-                <a href="#contact" class="btn btn-outline">Let's Connect</a>
-            </div>
+  function probs(T){
+    const ls = base.map(o => {
+      let l = o.l;
+      if (src === "data" && o.f === "ai" && !o.joke && o.w[0].includes("AI")) l = Math.log(.35);
+      if (src === "data" && o.f === "data") l = Math.log(.50);
+      return l / T;
+    });
+    const m = Math.max(...ls), e = ls.map(x => Math.exp(x - m)), s = e.reduce((a,b)=>a+b,0);
+    return base.map((o,i) => ({...o, p:e[i]/s})).sort((a,b)=>b.p-a.p);
+  }
+  function fmt(p){ return p < .01 ? "<0.01" : p.toFixed(2); }
 
-            <div class="tech-stack">
-                <p class="tech-stack-label">Core Technology Stack:</p>
-                <div class="tech-icons">
-                    <!-- Using simple text/icons for now, could be SVGs later -->
-                    <span class="tech-tag" title="Python"><i class="devicon-python-plain"></i> Python</span>
-                    <span class="tech-tag" title="Docker"><i class="devicon-docker-plain"></i> Docker</span>
-                    <span class="tech-tag" title="AWS"><i class="devicon-amazonwebservices-plain-wordmark"></i>
-                        AWS</span>
-                    <span class="tech-tag" title="Snowflake"><i class="ph ph-snowflake"></i> Snowflake</span>
-                    <span class="tech-tag" title="SQL"><i class="devicon-azuresqldatabase-plain"></i> SQL</span>
-                    <span class="tech-tag" title="PowerBi"><i class="ph ph-chart-bar"></i> PowerBi</span>
-                    <span class="tech-tag" title="PySpark"><i class="devicon-apachespark-original"></i> PySpark</span>
-                    <span class="tech-tag" title="Airflow"><i class="devicon-apacheairflow-plain"></i> Airflow</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="scroll-indicator">
-            <i class="ph ph-arrow-down"></i>
-        </div>
-    </section>
-
-    <!-- Featured Work -->
-    <section id="projects" class="featured-work">
-        <div class="container">
-            <h3 class="section-label">Featured Work</h3>
-            <!-- Dynamically rendered by main.js from projects.js -->
-            <div id="featured-container"></div>
-        </div>
-    </section>
-
-    <!-- The Archive -->
-    <section class="archive">
-        <div class="container">
-            <h3 class="section-label">Advanced Analytics & ML Foundations</h3>
-
-            <div class="table-container">
-                <table class="archive-table">
-                    <thead>
-                        <tr>
-                            <th>Project</th>
-                            <th>Domain & Impact</th>
-                            <th>Stack</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="archive-tbody">
-                        <!-- Dynamically rendered by main.js from projects.js -->
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Mobile Card View for Archive (Hidden on Desktop via CSS) -->
-            <div class="mobile-archive" id="mobile-archive-container">
-                <!-- Dynamically rendered by main.js from projects.js -->
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h3 class="section-label">About Me</h3>
-            <div class="about-grid">
-                <div class="about-content">
-                    <p class="bio-intro">I define myself as a <strong>Product-Minded Data Engineer</strong>.</p>
-                    <p>My journey started in Computer Science, but I quickly realized that the best dashboards and ML
-                        models mean nothing if the underlying data pipeline is broken. I specialize in building robust
-                        data infrastructures that allow business and analytics teams to move fast with confidence.</p>
-                    <p>I treat data pipelines as software products: versioned, tested, and reliable, ensuring that
-                        stakeholders make decisions based on absolute data integrity.</p>
-                </div>
-                <div class="about-timeline">
-                    <div class="timeline-item">
-                        <div class="year">2025 - Present</div>
-                        <div class="details">
-                            <h4>Postgraduate Certificate in Artificial Intelligence</h4>
-                            <span class="institution">UPC - Universitat Politècnica de Catalunya</span>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="year">2020 - 2025</div>
-                        <div class="details">
-                            <h4>Bachelor's Degree in Computer Science</h4>
-                            <span class="institution">UAB - Universitat Autònoma de Barcelona</span>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="year">2024</div>
-                        <div class="details">
-                            <h4>Certificate in Machine Learning Specialization</h4>
-                            <span class="institution">DeepLearning.AI</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="contact" class="footer">
-        <div class="container footer-content">
-            <h2 class="footer-cta">Ready to build scalable systems?</h2>
-            <div class="social-links">
-                <a href="mailto:jpalmagarro@gmail.com" class="social-link" title="jpalmagarro@gmail.com">Email</a>
-                <a href="https://www.linkedin.com/in/jpalmagarro/" target="_blank" class="social-link"
-                    title="@jpalmagarro">LinkedIn</a>
-                <a href="https://github.com/jpalmagarro" target="_blank" class="social-link"
-                    title="@jpalmagarro">GitHub</a>
-            </div>
-            <div class="copyright">
-                © 2026 Jill Palma Garro. All rights reserved.
-            </div>
-        </div>
-    </footer>
-
-    <script src="Assets/js/projects.js"></script>
-    <script src="Assets/js/main.js"></script>
+  function render(){
+    const T = +$("temp").value; $("tout").textContent = T.toFixed(1);
+    rows = probs(T);
+    $("menu").innerHTML = rows.map((o,i) =>
+      `<li class="opt${o.joke?" joke":""}" role="option" id="o${i}" aria-selected="${i===sel}" tabindex="-1">
+        <span class="w">${i18n.t(o.w[0], o.w[1])}</span><span class="bar"><i style="width:${(o.p*100).toFixed(1)}%"></i></span><span class="p">${fmt(o.p)}</span></li>`).join("");
+    $("menu").querySelectorAll(".opt").forEach((li,i)=>{
+      li.addEventListener("mouseenter",()=>{sel=i;mark();});
+      li.addEventListener("click",()=>{sel=i;accept(false);});
+    });
+  }
+  function mark(){ $("menu").querySelectorAll(".opt").forEach((li,i)=>li.setAttribute("aria-selected", i===sel)); $("menu").setAttribute("aria-activedescendant", "o"+sel); }
+  let accepted = null;
+  function goText(){
+    const o = accepted; if (!o) return;
+    $("done").textContent = " " + i18n.t(o.w[0], o.w[1]);
+    if (o.joke){ $("golink").textContent = i18n.t("↑ Lower the temperature and try again", "↑ Bajar la temperature y volver a elegir"); $("gonote").textContent = i18n.t("(that one was the temperature talking)", "(eso lo ha dicho la temperature)"); }
+    else { $("golink").textContent = i18n.t(`Enter ${o.to} →`, `Entrar en ${o.to} →`); $("gonote").textContent = ""; }
+  }
+  document.addEventListener("langchange", () => { render(); mark(); goText(); });
+  function accept(moveFocus){
+    const o = rows[sel];
+    document.querySelectorAll(".cite").forEach(c => c.dataset.hit = (c.dataset.f === o.f) ? "1" : "0");
+    const go = $("go"); go.classList.add("on");
+    accepted = o;
+    $("golink").href = o.joke ? "#" : o.to.slice(1)+"/";
+    goText();
+    if (moveFocus) $("golink").focus();
+  }
+  $("menu").addEventListener("keydown", e => {
+    if (e.key === "ArrowDown"){ sel = Math.min(sel+1, rows.length-1); mark(); e.preventDefault(); }
+    else if (e.key === "ArrowUp"){ sel = Math.max(sel-1, 0); mark(); e.preventDefault(); }
+    else if ((e.key === "Tab" && !e.shiftKey) || e.key === "Enter"){ accept(true); e.preventDefault(); }
+  });
+  $("temp").addEventListener("input", () => { sel = 0; render(); });
+  $("golink").addEventListener("click", e => {
+    if (!accepted || !accepted.joke) return;
+    e.preventDefault();
+    $("temp").value = 0.5; sel = 0; accepted = null; $("done").textContent = ""; $("go").classList.remove("on");
+    document.querySelectorAll(".cite").forEach(c => c.dataset.hit = "0");
+    render(); mark(); $("menu").focus();
+  });
+  // Desde el CV de Data se llega con ?f=data: Data pasa a ser la opción más probable.
+  if (new URLSearchParams(location.search).get("f") === "data" || location.hash === "#data") src = "data";
+  render(); mark();
+})();
+</script>
 </body>
-
 </html>

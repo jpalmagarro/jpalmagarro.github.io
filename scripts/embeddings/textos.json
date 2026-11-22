@@ -1,0 +1,23 @@
+{
+  "$comentario": "Lo que lee el modelo. Proyectos: descripción sacada del CV y de las páginas /data y /ai. Consultas: frase corta; la etiqueta visible está en ai/index.html. Si cambias algo, vuelve a ejecutar scripts/embeddings/calcular.py.",
+  "modelo": "intfloat/multilingual-e5-small",
+  "proyectos": {
+    "itbid": "AI assistant in production at itbid. An orchestrator routes each customer question to a glossary, to RAG over product documentation, or to MCP tools that run tested database functions when the answer needs live data. Multilingual RAG service on AWS, PII masking, answer guardrails and Redis session memory.",
+    "cosora": "COSORA: Graph RAG over Spanish construction site reports. Hybrid retrieval with BM25 and multilingual-e5 embeddings combined with Reciprocal Rank Fusion, optional LLM query rewriting, and a Neo4j knowledge graph queried with Cypher. Streamlit interface deployed on Cloud Run.",
+    "freelance": "Private RAG system for a freelance client over an already well-structured document base, focused on integration and on validating the quality of the LLM answers.",
+    "outfitmatch": "OutfitMatch: recommend an outfit from a photo of one garment. Deep learning for computer vision: an autoencoder compared with a siamese network that learns visual compatibility embeddings to retrieve matching clothes.",
+    "ad4p": "AD4P: anomaly detection for pharma manufacturing. An LSTM autoencoder in PyTorch detects sensor drift and frozen sensors in time series, benchmarked against simpler baselines, after a PySpark ETL pipeline that filters batch data.",
+    "dqm": "Enterprise Data Quality Monitor: defensive ELT pipeline orchestrated with Airflow, with a Chaos Monkey that corrupts data on purpose; dbt tests and Elementary detect anomalies and bad data in Snowflake before it reaches dashboards.",
+    "commerce": "Modern Commerce Growth Engine: dbt and Snowflake data models that join backend data and web logs into a single source of truth for marketing attribution, tested on more than one million synthetic events.",
+    "taskflow": "TaskFlow Analytics: B2B SaaS dashboard of MRR and customer churn built with SQL and Power BI; the analysis found the Brazil anomaly, a market with three times more churn.",
+    "abtest": "AB Decision Engine: A/B test simulator in Python and SciPy that guards against Sample Ratio Mismatch and Simpson's paradox to make sound product decisions from experiments."
+  },
+  "consultas": {
+    "rag": "retrieval-augmented generation (RAG) over documents",
+    "agent": "AI agents that choose and call tools",
+    "emb": "embeddings and similarity search",
+    "anom": "anomaly detection",
+    "pipe": "data pipelines and ETL",
+    "exp": "experiments and A/B testing"
+  }
+}
