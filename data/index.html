@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jill Palma Garro | Data Engineer</title>
+<meta name="description" content="Jill Palma Garro as a Data Engineer: a data-quality report on myself and a SQL query over my career and projects.">
+<meta name="author" content="Jill Palma Garro">
+<link rel="canonical" href="https://jpalmagarro.github.io/data/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jpalmagarro.github.io/data/">
+<meta property="og:title" content="Jill Palma Garro | Data Engineer">
+<meta property="og:description" content="Jill Palma Garro as a Data Engineer: a data-quality report on myself and a SQL query over my career and projects.">
+<meta property="og:image" content="https://jpalmagarro.github.io/Assets/img/og-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Jill Palma Garro | Data Engineer">
+<meta name="twitter:description" content="Jill Palma Garro as a Data Engineer: a data-quality report on myself and a SQL query over my career and projects.">
+<meta name="twitter:image" content="https://jpalmagarro.github.io/Assets/img/og-preview.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RZ1JDPNTXJ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-RZ1JDPNTXJ');</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../Assets/css/comun.css">
+<style>
+/* Informe de validación */
+.suite-head{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--rule)}
+.suite-head .name{font-family:var(--f-mono);font-size:14px}
+.counts{display:flex;gap:8px;flex-wrap:wrap;font-family:var(--f-mono);font-size:12px}
+.pill{border-radius:99px;padding:2px 10px;font-variant-numeric:tabular-nums}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.fail{background:var(--accent-soft);color:var(--muted)}
+.tests{list-style:none;margin:0;padding:0}
+.tests li{border-bottom:1px solid var(--rule)}
+.tests li:last-child{border-bottom:0}
+.tests details summary{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 18px;cursor:pointer;list-style:none;font-family:var(--f-mono);font-size:14px}
+.tests details summary::-webkit-details-marker{display:none}
+.tests .ico{font-size:14px;text-align:center}
+.tests .t{min-width:0;overflow-wrap:anywhere}
+.tests .r{font-size:12px;padding:2px 8px;border-radius:4px}
+.ok .ico,.ok .r{color:var(--ok)} .ok .r{background:var(--ok-soft)}
+.warn .ico,.warn .r{color:var(--warn)} .warn .r{background:var(--warn-soft)}
+.tests .ev{margin:0;padding:0 18px 14px 52px;font-size:14px;color:var(--muted)}
+.tests .ev b{color:var(--fg);font-weight:500}
+
+/* Consulta */
+.query{padding:16px 18px;border-bottom:1px solid var(--rule);font-family:var(--f-mono);font-size:14px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere}
+.kw{color:var(--accent)} .str{color:var(--ok)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;padding:12px 18px;border-bottom:1px solid var(--rule)}
+.chips button{font-family:var(--f-mono);font-size:12px;background:none;color:var(--muted);border:1px solid var(--rule);border-radius:99px;padding:3px 11px;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.meta{font-family:var(--f-mono);font-size:12px;color:var(--muted);padding:8px 18px;border-bottom:1px solid var(--rule)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+th{font-family:var(--f-mono);font-weight:500;font-size:12px;color:var(--muted);text-align:left;padding:9px 18px;border-bottom:1px solid var(--rule)}
+td{padding:12px 18px;border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.p{font-family:var(--f-display);font-size:19px;line-height:1.2;width:30%}
+td.p small{display:block;font-family:var(--f-mono);font-size:11px;color:var(--muted);margin-top:4px}
+td.s{font-family:var(--f-mono);font-size:12px;color:var(--muted);width:24%}
+td.d{color:var(--muted)}
+.career td{font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <nav class="top" aria-label="Navigation" data-es-aria="Navegación">
+    <a href="../" data-es="← Jill Palma Garro es <b>Data Engineer</b>">← Jill Palma Garro is a <b>Data Engineer</b></a>
+    <span class="right"><span><a href="../ai/">/ai</a> · <a href="../Assets/Jill_Palma_Garro_Web_Resume.pdf" target="_blank" rel="noopener">CV (PDF)</a></span>
+      <span class="lang" role="group" aria-label="Language"><button type="button" data-l="en">EN</button><button type="button" data-l="es">ES</button></span></span>
+  </nav>
+
+  <header>
+    <h1>Validating <code>jill_palma_garro</code></h1>
+    <p class="lede" data-es="Si valido los datos antes de que lleguen a un modelo, lo justo es validarme a mí también. Pulsa cada test para ver la evidencia.">I validate data before it reaches a model, so it's only fair to validate myself too. Click any test to see the evidence.</p>
+  </header>
+
+  <section aria-labelledby="h-suite">
+    <h2 id="h-suite">Expectation suite · data_engineer.yml</h2>
+    <div class="panel">
+      <div class="suite-head">
+        <span class="name">checkpoint: hiring_review</span>
+        <span class="counts"><span class="pill ok">7 passed</span><span class="pill warn">1 warning</span><span class="pill fail">0 failed</span></span>
+      </div>
+      <ul class="tests">
+        <li class="ok"><details><summary><span class="ico">✓</span><span class="t">expect_daily_records_validated &gt;= 500_000</span><span class="r">PASSED</span></summary>
+          <p class="ev" data-es="<b>Penguin Random House, 2024.</b> Scripts en Python sobre AWS (S3, EC2, Lambda) que parseaban, limpiaban y validaban más de 500k registros al día."><b>Penguin Random House, 2024.</b> Python scripts on AWS (S3, EC2, Lambda) that parsed, cleaned and validated 500k+ records a day.</p></details></li>
+        <li class="ok"><details><summary><span class="ico">✓</span><span class="t">expect_quality_checks_before_models == true</span><span class="r">PASSED</span></summary>
+          <p class="ev" data-es="<b>Penguin Random House.</b> Checks de calidad en SQL sobre Snowflake para frenar datos malos antes de que llegaran a los modelos predictivos."><b>Penguin Random House.</b> SQL quality checks on Snowflake that stopped bad data before it reached the predictive models.</p></details></li>
+        <li class="ok"><details><summary><span class="ico">✓</span><span class="t">expect_pipeline_takeover_days &lt;= 7</span><span class="r">PASSED</span></summary>
+          <p class="ev" data-es="<b>SDG Group, 2024–2025.</b> Me hice cargo de los pipelines y reportes de un equipo en mi primera semana, cubriendo una baja."><b>SDG Group, 2024–2025.</b> Took over a team's pipelines and reports in my first week, covering for a colleague on leave.</p></details></li>
+        <li class="ok"><details><summary><span class="ico">✓</span><span class="t">expect_snowflake_sql_optimized == true</span><span class="r">PASSED</span></summary>
+          <p class="ev" data-es="<b>SDG Group.</b> JOINs, CTEs y vistas materializadas en los ETL que alimentan la monitorización y Power BI."><b>SDG Group.</b> JOINs, CTEs and materialized views in the ETL feeding monitoring and Power BI.</p></details></li>
+        <li class="ok"><details><summary><span class="ico">✓</span><span class="t">expect_llm_free_form_sql_in_prod == 0</span><span class="r">PASSED</span></summary>
+          <p class="ev" data-es="<b>itbid, 2026.</b> Herramientas MCP que ejecutan funciones de base de datos probadas en vez de SQL inventado por el LLM. Cubren cerca del 80 % de las preguntas analíticas de los clientes."><b>itbid, 2026.</b> MCP tools that run tested database functions instead of SQL made up by the LLM. They cover about 80% of customers' analytical questions.</p></details></li>
+        <li class="ok"><details><summary><span class="ico">✓</span><span class="t">expect_pii_masked == true</span><span class="r">PASSED</span></summary>
+          <p class="ev" data-es="<b>itbid.</b> Enmascarado de datos personales y guardrails en las respuestas del asistente."><b>itbid.</b> Personal data masking and guardrails on the assistant's answers.</p></details></li>
+        <li class="ok"><details><summary><span class="ico">✓</span><span class="t">expect_column_values_in_set(languages, [es, ca, en])</span><span class="r">PASSED</span></summary>
+          <p class="ev" data-es="Español y catalán nativos; inglés de trabajo.">Native Spanish and Catalan; working English.</p></details></li>
+        <li class="warn"><details><summary><span class="ico">⚠</span><span class="t">expect_english_level &gt;= C1</span><span class="r">WARNING · B2</span></summary>
+          <p class="ev" data-es="<b>Honesto:</b> hoy B2, preparando el C1. Lo dejo en amarillo hasta que llegue el certificado."><b>Honest:</b> B2 today, preparing for C1. It stays yellow until the certificate arrives.</p></details></li>
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-q">
+    <h2 id="h-q" data-es="Proyectos">Projects</h2>
+    <div class="panel">
+      <div class="query" id="q" aria-live="polite"></div>
+      <div class="chips" role="group" aria-label="Filter by technology" data-es-aria="Filtrar por tecnología" id="chips"></div>
+      <div class="meta" id="meta"></div>
+      <div class="scroll"><table>
+        <thead><tr><th>project</th><th>stack</th><th>what_it_does</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-c">
+    <h2 id="h-c">SELECT * FROM career ORDER BY start DESC</h2>
+    <div class="panel scroll"><table class="career">
+      <thead><tr><th>company</th><th>role</th><th>start</th><th>end</th></tr></thead>
+      <tbody>
+        <tr><td>itbid</td><td>AI Engineer</td><td class="mono">2026-05</td><td class="mono">NULL</td></tr>
+        <tr><td>Freelance</td><td>AI Engineer</td><td class="mono">2025-08</td><td class="mono">2026-04</td></tr>
+        <tr><td>SDG Group</td><td>Data Solutions Analyst</td><td class="mono">2024-11</td><td class="mono">2025-05</td></tr>
+        <tr><td>Penguin Random House</td><td>Data Scientist Intern</td><td class="mono">2024-01</td><td class="mono">2024-05</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <footer><span>v2026.11</span><span><a href="../">← jpalmagarro</a> · <a href="../ai/">/ai</a></span></footer>
+</main>
+
+<script src="../Assets/js/i18n.js"></script>
+<script>
+(() => {
+  const P = [
+    {n:"Enterprise Data Quality Monitor", k:"pipeline", s:["airflow","dbt","snowflake","python"],
+     en:"Defensive ELT pipeline with a “Chaos Monkey” that corrupts data on purpose; anomaly detection with dbt and Elementary.",
+     es:"Pipeline ELT defensivo con un «Chaos Monkey» que corrompe datos a propósito; detección de anomalías con dbt y Elementary."},
+    {n:"Modern Commerce Growth Engine", k:"pipeline", s:["dbt","snowflake","python","powerbi"],
+     en:"Joins backend data and web logs into a single source of truth for attribution; 1M+ synthetic events.",
+     es:"Une datos de backend y logs web en una sola fuente de verdad para atribución; más de 1M de eventos sintéticos."},
+    {n:"AD4P · ETL", k:"pipeline", s:["pyspark","python"],
+     en:"The PySpark pipeline that filters manufacturing batches before the anomaly model (the ML part lives in /ai).",
+     es:"El pipeline PySpark que filtra los lotes de fabricación antes del modelo de anomalías (la parte ML está en /ai)."},
+    {n:"TaskFlow Analytics", k:"analytics", s:["sql","powerbi","python"],
+     en:"B2B MRR and churn dashboard: found the “Brazil anomaly” (3× more churn).",
+     es:"Panel B2B de MRR y churn: encontró la «anomalía de Brasil» (3× más churn)."},
+    {n:"AB Decision Engine", k:"analytics", s:["python","scipy"],
+     en:"A/B test simulator that guards against Sample Ratio Mismatch and Simpson's paradox.",
+     es:"Simulador de tests A/B que evita Sample Ratio Mismatch y la paradoja de Simpson."},
+  ];
+  const tags = ["airflow","dbt","snowflake","pyspark","sql","powerbi"];
+  const on = new Set();
+  const $ = id => document.getElementById(id);
+  $("chips").innerHTML = tags.map(t => `<button type="button" aria-pressed="false" data-t="${t}">${t}</button>`).join("");
+  $("chips").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    const t = b.dataset.t; on.has(t) ? on.delete(t) : on.add(t);
+    b.setAttribute("aria-pressed", on.has(t)); render();
+  });
+  function render(){
+    const L = i18n.lang;
+    const where = [`<span class="kw">role</span> = <span class="str">'data_engineer'</span>`]
+      .concat([...on].map(t => `<span class="kw">stack</span> @&gt; <span class="str">'{${t}}'</span>`));
+    $("q").innerHTML = `<span class="kw">SELECT</span> project, stack, what_it_does\n<span class="kw">FROM</span> projects\n<span class="kw">WHERE</span> ${where.join("\n  <span class=\"kw\">AND</span> ")}\n<span class="kw">ORDER BY</span> impact <span class="kw">DESC</span>;`;
+    const r = P.filter(p => [...on].every(t => p.s.includes(t)));
+    $("meta").textContent = `▸ ${r.length} ${r.length === 1 ? "row" : "rows"}`;
+    $("rows").innerHTML = r.length ? r.map(p => `<tr><td class="p">${p.n}<small>${p.k}</small></td><td class="s">${p.s.join(", ")}</td><td class="d">${p[L]}</td></tr>`).join("")
+      : `<tr><td colspan="3" class="d">${i18n.t("0 rows. No project matches all those filters; remove one.", "0 rows. Ningún proyecto combina esos filtros; quita alguno.")}</td></tr>`;
+  }
+  document.addEventListener("langchange", render);
+  render();
+})();
+</script>
+</body>
+</html>

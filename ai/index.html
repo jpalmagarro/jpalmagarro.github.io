@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jill Palma Garro | AI &amp; ML Engineer</title>
+<meta name="description" content="Jill Palma Garro as an AI Engineer: my career as a training run, an embedding map of my projects and evaluation cards.">
+<meta name="author" content="Jill Palma Garro">
+<link rel="canonical" href="https://jpalmagarro.github.io/ai/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jpalmagarro.github.io/ai/">
+<meta property="og:title" content="Jill Palma Garro | AI &amp; ML Engineer">
+<meta property="og:description" content="Jill Palma Garro as an AI Engineer: my career as a training run, an embedding map of my projects and evaluation cards.">
+<meta property="og:image" content="https://jpalmagarro.github.io/Assets/img/og-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Jill Palma Garro | AI &amp; ML Engineer">
+<meta name="twitter:description" content="Jill Palma Garro as an AI Engineer: my career as a training run, an embedding map of my projects and evaluation cards.">
+<meta name="twitter:image" content="https://jpalmagarro.github.io/Assets/img/og-preview.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RZ1JDPNTXJ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-RZ1JDPNTXJ');</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../Assets/css/comun.css">
+<style>
+/* Curva de entrenamiento */
+.chart{padding:14px 10px 6px}
+.chart svg{display:block;width:100%;height:auto}
+.chart text{font-family:var(--f-mono);font-size:11px;fill:var(--muted)}
+.chart .grid{stroke:var(--rule);stroke-width:1}
+.chart .loss{fill:none;stroke:var(--accent);stroke-width:2;stroke-linejoin:round}
+.chart .area{fill:var(--accent-soft);opacity:.7}
+.chart .future{fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:4 5;opacity:.6}
+.chart .ev circle{fill:var(--surface);stroke:var(--fg);stroke-width:1.5}
+.chart .ev text{fill:var(--fg);font-size:10px;text-anchor:middle;dominant-baseline:central}
+.chart .now{fill:var(--accent)}
+.chart .tag{fill:var(--accent);font-size:12px}
+.legend{list-style:none;margin:0;padding:12px 18px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:8px 24px;border-top:1px solid var(--rule)}
+.legend li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;font-size:14px;color:var(--muted);align-items:baseline}
+.legend .k{font-family:var(--f-mono);font-size:11px;border:1.5px solid var(--fg);color:var(--fg);border-radius:99px;width:20px;height:20px;display:grid;place-items:center}
+.legend b{color:var(--fg);font-weight:500}
+
+/* Fichas de evaluación */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:18px;display:grid;gap:10px;align-content:start;min-width:0}
+.card .kind{font-family:var(--f-mono);font-size:11px;color:var(--accent)}
+.card h3{margin:0;font-family:var(--f-display);font-weight:500;font-size:23px;line-height:1.15}
+.card dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 12px;font-size:14px}
+.card dt{font-family:var(--f-mono);font-size:11px;color:var(--muted);padding-top:2px}
+.card dd{margin:0}
+.card a{font-family:var(--f-mono);font-size:13px;text-underline-offset:3px}
+
+/* System prompt */
+.prompt{margin:0;padding:18px 20px;font-family:var(--f-mono);font-size:14px;line-height:1.75;white-space:pre-wrap;overflow-wrap:anywhere}
+.prompt .role{color:var(--accent)}
+.prompt .c{color:var(--muted)}
+
+/* Mapa de embeddings */
+.map-wrap{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);border-top:1px solid var(--rule)}
+@media (max-width:700px){.map-wrap{grid-template-columns:1fr}}
+.map{padding:8px;min-width:0}
+.map svg{display:block;width:100%;height:auto}
+.map text{font-family:var(--f-mono);font-size:11px;fill:var(--muted)}
+.map .cl{font-size:10px;letter-spacing:.08em;text-transform:uppercase;fill:var(--muted);opacity:.7}
+.map .pt{fill:var(--surface);stroke:var(--fg);stroke-width:1.5;transition:r .25s}
+.map .pt.hit{fill:var(--accent);stroke:var(--accent)}
+.map .lbl.hit{fill:var(--fg)}
+.map .ray{stroke:var(--accent);stroke-width:1.5;stroke-dasharray:3 4}
+.map .q{fill:var(--accent)}
+.map .qring{fill:none;stroke:var(--accent);stroke-width:1;opacity:.35}
+.qs{display:flex;flex-wrap:wrap;gap:8px;padding:12px 18px;align-items:center}
+.qs span{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.qs button{font-family:var(--f-mono);font-size:12px;background:none;color:var(--muted);border:1px solid var(--rule);border-radius:99px;padding:3px 11px;cursor:pointer}
+.qs button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.hits{list-style:none;margin:0;padding:14px 18px;display:grid;gap:12px;align-content:start;border-left:1px solid var(--rule);min-width:0}
+@media (max-width:700px){.hits{border-left:0;border-top:1px solid var(--rule)}}
+.hits li{display:grid;gap:2px}
+.hits .row{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.hits b{font-family:var(--f-display);font-weight:500;font-size:18px}
+.hits .sc{font-family:var(--f-mono);font-size:12px;color:var(--accent);font-variant-numeric:tabular-nums}
+.hits p{margin:0;font-size:13px;color:var(--muted)}
+.note{font-family:var(--f-mono);font-size:11px;color:var(--warn);padding:0 18px 12px}
+.map .zone{fill:var(--accent-soft);opacity:.55}
+.map .pt{cursor:pointer}
+.map a:focus-visible .pt{stroke:var(--accent);stroke-width:3}
+.why{margin:0;padding:10px 18px;border-top:1px solid var(--rule);font-size:14px}
+.why b{font-weight:500}
+.howto{margin:0;padding:10px 18px 4px;font-size:13px;color:var(--muted)}
+.hits .meta2{display:flex;gap:10px;align-items:baseline;font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.hits .meta2 a{color:var(--accent);text-underline-offset:3px}
+.hits .simbar{height:4px;background:var(--rule);border-radius:2px;overflow:hidden;margin-top:4px}
+.hits .simbar i{display:block;height:100%;background:var(--accent)}
+
+.research{list-style:none;margin:0;padding:0}
+.research li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:12px 18px;border-bottom:1px solid var(--rule);align-items:center}
+.research li:last-child{border-bottom:0}
+.research .st{font-family:var(--f-mono);font-size:12px;color:var(--warn);background:var(--warn-soft);border-radius:4px;padding:2px 8px}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <nav class="top" aria-label="Navigation" data-es-aria="Navegación">
+    <a href="../" data-es="← Jill Palma Garro es <b>AI Engineer</b>">← Jill Palma Garro is an <b>AI Engineer</b></a>
+    <span class="right"><span><a href="../data/">/data</a> · <a href="../Assets/Jill_Palma_Garro_Web_Resume.pdf" target="_blank" rel="noopener">CV (PDF)</a></span>
+      <span class="lang" role="group" aria-label="Language"><button type="button" data-l="en">EN</button><button type="button" data-l="es">ES</button></span></span>
+  </nav>
+
+  <header>
+    <h1>Training run <code>jill-v2026</code></h1>
+    <p class="lede" data-es="Mi carrera vista como un entrenamiento: cada trabajo nuevo es un <i>warm restart</i>. El <i>loss</i> sube un poco y vuelve a bajar más que antes. Todavía no ha convergido.">My career as a training run: every new job is a <i>warm restart</i>. The loss jumps a little, then drops lower than before. It hasn't converged yet.</p>
+  </header>
+
+  <section aria-labelledby="h-run">
+    <h2 id="h-run">loss / epoch</h2>
+    <div class="panel">
+      <div class="chart"><svg id="curve" viewBox="0 0 800 300" role="img" aria-label="Loss curve falling from 2020 to 2026, with a bump at each career step and a dashed line into the future" data-es-aria="Curva de loss descendente de 2020 a 2026, con saltos en cada cambio de etapa y una línea discontinua hacia el futuro"></svg></div>
+      <ol class="legend" id="legend"></ol>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-map">
+    <h2 id="h-map" data-es="Retrieve · espacio de embeddings de mis proyectos">Retrieve · embedding space of my projects</h2>
+    <div class="panel">
+      <div class="qs" role="group" aria-label="Queries" data-es-aria="Consultas"><span>query:</span></div>
+      <div class="map-wrap">
+        <div class="map"><svg id="emb" viewBox="0 0 520 340" role="img" aria-label="2D map of projects grouped into LLM, ML and data; the chosen query links to its three nearest projects" data-es-aria="Mapa 2D de proyectos agrupados en LLM, ML y datos; la consulta elegida se une a los tres proyectos más cercanos"></svg></div>
+        <ol class="hits" id="hits" aria-live="polite"></ol>
+      </div>
+      <p class="why" id="why" aria-live="polite"></p>
+      <p class="howto" data-es="Cómo leerlo: cada punto es un proyecto, agrupado por temas. Cerca = se parecen. Las líneas unen tu consulta con sus 3 proyectos más cercanos. Pulsa un punto para abrir su código.">How to read it: each dot is a project, grouped by topic. Close = similar. The lines join your query to its 3 nearest projects. Click a dot to open its code.</p>
+      <p class="note" data-es="Nota honesta: los puntos los he colocado a mano, no salen de un modelo. La puntuación es solo la distancia en este mapa.">Honest note: I placed the dots by hand, they are not computed by a model. The score is just distance on this map.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-eval">
+    <h2 id="h-eval" data-es="Fichas de evaluación">Eval cards</h2>
+    <div class="cards">
+      <article class="card"><span class="kind" data-es="LLM · producción">LLM · production</span><h3 data-es="Asistente de IA de itbid">itbid AI assistant</h3>
+        <dl><dt data-es="tarea">task</dt><dd data-es="Responder preguntas de clientes con documentación y datos vivos.">Answer customer questions from docs and live data.</dd>
+        <dt data-es="método">method</dt><dd data-es="Orquestador que enruta al glosario, a RAG o a herramientas MCP; enmascarado de PII y memoria en Redis.">Orchestrator that routes to a glossary, RAG or MCP tools; PII masking and Redis memory.</dd>
+        <dt data-es="resultado">result</dt><dd data-es="Funciones probadas que cubren cerca del 80 % de las preguntas analíticas, sin SQL libre.">Tested functions covering about 80% of analytical questions, no free-form SQL.</dd></dl></article>
+      <article class="card"><span class="kind">LLM · Graph RAG</span><h3>COSORA</h3>
+        <dl><dt data-es="tarea">task</dt><dd data-es="Buscar en partes de obra en español.">Search Spanish construction site reports.</dd>
+        <dt data-es="método">method</dt><dd data-es="BM25 + multilingual-e5 con Reciprocal Rank Fusion; grafo de conocimiento en Neo4j.">BM25 + multilingual-e5 with Reciprocal Rank Fusion; knowledge graph in Neo4j.</dd>
+        <dt data-es="despliegue">deploy</dt><dd data-es="Streamlit en Cloud Run. Proyecto en equipo, UPC School.">Streamlit on Cloud Run. Team project, UPC School.</dd></dl>
+        <a href="https://github.com/jpalmagarro/RAG-UPCSchool-Project" data-es="código →">code →</a></article>
+      <article class="card"><span class="kind" data-es="ML · series temporales">ML · time series</span><h3>AD4P</h3>
+        <dl><dt data-es="tarea">task</dt><dd data-es="Detectar deriva y sensores congelados en fabricación farmacéutica.">Detect drift and frozen sensors in pharma manufacturing.</dd>
+        <dt data-es="método">method</dt><dd data-es="Autoencoder LSTM en PyTorch, comparado con baselines más simples.">LSTM autoencoder in PyTorch, compared with simpler baselines.</dd>
+        <dt data-es="despliegue">deploy</dt><dd data-es="Demo pública en Hugging Face Spaces.">Public demo on Hugging Face Spaces.</dd></dl>
+        <a href="https://github.com/jpalmagarro/AnomalyDetection4Pharma" data-es="código →">code →</a></article>
+      <article class="card"><span class="kind" data-es="Deep Learning · visión">Deep Learning · vision</span><h3>OutfitMatch</h3>
+        <dl><dt data-es="tarea">task</dt><dd data-es="Recomendar un conjunto a partir de la foto de una prenda.">Recommend an outfit from a photo of one garment.</dd>
+        <dt data-es="método">method</dt><dd data-es="Autoencoder frente a red siamesa para embeddings de compatibilidad visual.">Autoencoder vs. siamese network for visual compatibility embeddings.</dd>
+        <dt data-es="contexto">context</dt><dd data-es="Trabajo de fin de grado (UAB).">Bachelor's thesis (UAB).</dd></dl>
+        <a href="https://github.com/jpalmagarro/TFG_OUTFITMATCH" data-es="código →">code →</a></article>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-sys">
+    <h2 id="h-sys" data-es="Sobre mí · system prompt">About me · system prompt</h2>
+    <div class="panel"><pre class="prompt"><span class="role">system:</span> You are Jill, an AI &amp; Data Engineer based in Barcelona.
+<span class="c"># Rules you follow</span>
+- Send each question to the cheapest reliable source: glossary, RAG or a tested tool.
+- Never let the model write free-form SQL against production.
+- Mask personal data before it reaches the model.
+- No eval set, no ship.
+- Prefer "I don't know" to a confident hallucination.
+<span class="c"># Languages</span> Spanish, Catalan, English.</pre></div>
+  </section>
+
+  <section aria-labelledby="h-res">
+    <h2 id="h-res" data-es="Investigación · still training">Research · still training</h2>
+    <div class="panel"><ul class="research">
+      <li><span data-es="Posgrado en IA con Deep Learning · UPC">Postgraduate in AI with Deep Learning · UPC</span><span class="st">2025–2026</span></li>
+      <li><span>SemEval</span><span class="st" data-es="en curso">ongoing</span></li>
+    </ul></div>
+  </section>
+
+  <footer><span>v2026.11</span><span><a href="../">← jpalmagarro</a> · <a href="../data/">/data</a></span></footer>
+</main>
+
+<script src="../Assets/js/i18n.js"></script>
+<script>
+(() => {
+  // Eventos reales del CV (año decimal). Cada uno es un "warm restart".
+  const E = [
+    {t:2020.75, k:["BSc Computer Engineering", "Grado en Ingeniería Informática"], w:["UAB · training starts", "UAB · empieza el entrenamiento"]},
+    {t:2024.0,  k:["Penguin Random House"], w:["Data Scientist Intern"]},
+    {t:2024.85, k:["SDG Group"], w:["Data Solutions Analyst"]},
+    {t:2025.6,  k:["Freelance + UPC postgraduate", "Freelance + posgrado UPC"], w:["AI Engineer · AI with Deep Learning", "AI Engineer · IA con Deep Learning"]},
+    {t:2026.35, k:["itbid"], w:["AI Engineer · agents, RAG, MCP", "AI Engineer · agentes, RAG, MCP"]},
+  ];
+  const x0 = 2020.5, x1 = 2027.25, now = 2026.9;
+  const W = 800, H = 300, L = 44, R = 16, T = 16, B = 34;
+  const X = t => L + (t - x0) / (x1 - x0) * (W - L - R);
+  const ymax = 2.6, Y = v => T + (1 - v / ymax) * (H - T - B);
+  // Pérdida: decae con el tiempo; cada evento añade un pico pequeño que también decae (warm restart).
+  const loss = t => {
+    let v = 0.32 + 2.0 * Math.exp(-(t - x0) / 1.6);
+    for (const e of E.slice(1)) if (t >= e.t) v += 0.28 * Math.exp(-(t - e.t) / 0.18);
+    return v + 0.035 * Math.sin(t * 41) + 0.02 * Math.sin(t * 97);
+  };
+  const pts = []; for (let t = x0; t <= now + 1e-9; t += 0.01) pts.push([X(t), Y(loss(t))]);
+  const d = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join("");
+  const fut = []; for (let t = now; t <= x1; t += 0.05) fut.push([X(t), Y(0.32 + 2.0 * Math.exp(-(t - x0) / 1.6) - 0.06 * (t - now))]);
+  const fd = fut.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join("");
+  let s = "";
+  for (let v = 0; v <= 2.5; v += 0.5) s += `<line class="grid" x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}"/><text x="${L-8}" y="${Y(v)+4}" text-anchor="end">${v.toFixed(1)}</text>`;
+  for (let y = 2021; y <= 2027; y++) s += `<text x="${X(y)}" y="${H-10}" text-anchor="middle">${y}</text>`;
+  s += `<path class="area" d="${d}L${X(now)} ${Y(0)}L${X(x0)} ${Y(0)}Z"/><path class="loss" d="${d}"/><path class="future" d="${fd}"/>`;
+  E.forEach((e, i) => { const cx = X(e.t), cy = Y(loss(e.t)) - 16;
+    s += `<g class="ev"><line class="grid" x1="${cx}" x2="${cx}" y1="${cy+9}" y2="${Y(loss(e.t))}"/><circle cx="${cx}" cy="${cy}" r="9"/><text x="${cx}" y="${cy}">${i+1}</text></g>`; });
+  s += `<circle class="now" cx="${X(now)}" cy="${Y(loss(now))}" r="4"/><text class="tag" x="${X(now)-6}" y="${Y(loss(now))+24}" text-anchor="end">still training</text>`;
+  document.getElementById("curve").innerHTML = s;
+  const tx = a => i18n.t(a[0], a[1] ?? a[0]);
+  const legend = () => document.getElementById("legend").innerHTML = E.map((e, i) => `<li><span class="k">${i+1}</span><span><b>${tx(e.k)}</b> · ${tx(e.w)}</span></li>`).join("");
+  document.addEventListener("langchange", legend);
+  legend();
+})();
+
+(() => {
+  // Proyectos colocados a mano por grupos. x,y en el viewBox 520x340.
+  // c = grupo; u = enlace (null = código privado).
+  const GH = "https://github.com/jpalmagarro/";
+  const P = [
+    {n:["itbid assistant","Asistente itbid"], c:"llm", x:400, y:70, u:null,
+     d:["Orchestrator with RAG and MCP tools in production.","Orquestador con RAG y herramientas MCP en producción."]},
+    {n:["COSORA"], c:"llm", x:350, y:115, u:GH+"RAG-UPCSchool-Project",
+     d:["Graph RAG with hybrid search and Neo4j.","Graph RAG con búsqueda híbrida y Neo4j."]},
+    {n:["Freelance RAG","RAG freelance"], c:"llm", x:455, y:120, u:null,
+     d:["Private RAG for a client, with answer validation.","RAG privado para un cliente, con validación de respuestas."]},
+    {n:["OutfitMatch"], c:"ml", x:430, y:185, u:GH+"TFG_OUTFITMATCH",
+     d:["Siamese network that learns embeddings to match garments: retrieval, but with images.","Red siamesa que aprende embeddings para combinar prendas: retrieval, pero con imágenes."]},
+    {n:["AD4P"], c:"ml", x:320, y:240, u:GH+"AnomalyDetection4Pharma",
+     d:["LSTM autoencoder: drift and frozen sensors in pharma manufacturing.","Autoencoder LSTM: deriva y sensores congelados en fabricación farmacéutica."]},
+    {n:["Data Quality Monitor"], c:"data", x:150, y:110, u:GH+"Enterprise-Data-Quality-Monitor",
+     d:["ELT pipeline with a Chaos Monkey; dbt + Elementary flag the bad data.","Pipeline ELT con Chaos Monkey; dbt + Elementary detectan los datos malos."]},
+    {n:["Commerce Growth Engine"], c:"data", x:90, y:150, u:GH+"Modern-Commerce-Growth-Engine",
+     d:["dbt + Snowflake: one source of truth for attribution.","dbt + Snowflake: una sola fuente de verdad para atribución."]},
+    {n:["TaskFlow Analytics"], c:"analytics", x:170, y:250, u:GH+"TaskFlow_Analytics",
+     d:["MRR and churn: found the Brazil anomaly (3× churn).","MRR y churn: encontró la anomalía de Brasil (3× churn)."]},
+    {n:["AB Decision Engine"], c:"analytics", x:90, y:275, u:GH+"AB-Decision-Engine",
+     d:["A/B tests without SRM or Simpson's paradox.","Tests A/B sin SRM ni paradoja de Simpson."]},
+  ];
+  const C = {llm:{l:"LLM", x:410, y:34}, ml:{l:"ML · DL", x:385, y:300}, data:{l:"Data", x:120, y:66}, analytics:{l:"Analytics", x:130, y:318}};
+  // Clave fija; etiqueta y explicación cambian con el idioma.
+  const Q = {
+    rag:   {x:395, y:100, l:["RAG"],
+            w:["All three ground an LLM in real documents; the difference is where the data lives.","Las tres anclan un LLM en documentos reales; cambia dónde viven los datos."]},
+    agent: {x:430, y:60,  l:["agents","agentes"],
+            w:["Routing each question to the right tool is the core of the itbid assistant.","Enrutar cada pregunta a la herramienta adecuada es el núcleo del asistente de itbid."]},
+    emb:   {x:410, y:165, l:["embeddings"],
+            w:["OutfitMatch was retrieval before I called it RAG: same idea, images instead of text.","OutfitMatch ya era retrieval antes de llamarlo RAG: la misma idea, con imágenes en vez de texto."]},
+    anom:  {x:215, y:195, l:["anomalies","anomalías"],
+            w:["The same skill in three areas: <b>sensors</b> (ML), <b>corrupted data</b> (Data) and <b>churn</b> (Analytics). The query lands between groups on purpose.","La misma habilidad en tres áreas: <b>sensores</b> (ML), <b>datos corruptos</b> (Data) y <b>churn</b> (Analytics). La consulta cae entre grupos a propósito."]},
+    pipe:  {x:125, y:125, l:["pipelines"],
+            w:["Where most of my data work lives: data that arrives clean and on time.","Donde vive la mayor parte de mi trabajo de datos: que lleguen limpios y a tiempo."]},
+    exp:   {x:120, y:255, l:["experiments","experimentos"],
+            w:["Deciding with data, without fooling yourself with statistics.","Decidir con datos sin engañarse con la estadística."]},
+  };
+  const tx = a => i18n.t(a[0], a[1] ?? a[0]);
+  let cur = "rag";
+  const svg = document.getElementById("emb"), hits = document.getElementById("hits"), qs = document.querySelector(".qs");
+  Object.keys(Q).forEach((k, i) => qs.insertAdjacentHTML("beforeend", `<button type="button" aria-pressed="${i===0}" data-q="${k}"></button>`));
+
+  // Zona de cada grupo: elipse que envuelve sus puntos.
+  function zones(){
+    let z = "";
+    for (const k in C){
+      const m = P.filter(p => p.c === k), xs = m.map(p => p.x), ys = m.map(p => p.y);
+      const cx = (Math.min(...xs)+Math.max(...xs))/2, cy = (Math.min(...ys)+Math.max(...ys))/2;
+      const rx = (Math.max(...xs)-Math.min(...xs))/2 + 60, ry = (Math.max(...ys)-Math.min(...ys))/2 + 34;
+      z += `<ellipse class="zone" cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}"/><text class="cl" x="${C[k].x}" y="${C[k].y}" text-anchor="middle">${C[k].l}</text>`;
+    }
+    return z;
+  }
+  function run(k){
+    cur = k; const q = Q[k];
+    const r = P.map(p => ({...p, sim: Math.max(0, 1 - Math.hypot(p.x - q.x, p.y - q.y) / 420)})).sort((a, b) => b.sim - a.sim);
+    const top = new Set(r.slice(0, 3).map(p => p.n[0]));
+    let s = zones();
+    r.slice(0, 3).forEach(p => s += `<line class="ray" x1="${q.x}" y1="${q.y}" x2="${p.x}" y2="${p.y}"/>`);
+    P.forEach(p => { const h = top.has(p.n[0]) ? " hit" : "";
+      const dot = `<circle class="pt${h}" cx="${p.x}" cy="${p.y}" r="${h ? 7 : 5}"><title>${tx(p.n)} — ${tx(p.d)}</title></circle><text class="lbl${h}" x="${p.x}" y="${p.y - 11}" text-anchor="middle">${tx(p.n)}</text>`;
+      s += p.u ? `<a href="${p.u}" target="_blank" rel="noopener" aria-label="${tx(p.n)}">${dot}</a>` : dot; });
+    s += `<circle class="qring" cx="${q.x}" cy="${q.y}" r="16"/><circle class="q" cx="${q.x}" cy="${q.y}" r="5"/><text x="${q.x - 12}" y="${q.y + 24}" text-anchor="end" style="fill:var(--accent)">"${tx(q.l)}"</text>`;
+    svg.innerHTML = s;
+    hits.innerHTML = r.slice(0, 3).map(p => `<li><span class="row"><b>${tx(p.n)}</b><span class="sc">${p.sim.toFixed(2)}</span></span>
+      <span class="simbar"><i style="width:${(p.sim*100).toFixed(0)}%"></i></span><p>${tx(p.d)}</p>
+      <span class="meta2"><span>${C[p.c].l}</span>${p.u ? `<a href="${p.u}" target="_blank" rel="noopener">${i18n.t("code →","código →")}</a>` : `<span>${i18n.t("private code","código privado")}</span>`}</span></li>`).join("");
+    document.getElementById("why").innerHTML = tx(q.w);
+    qs.querySelectorAll("button").forEach(b => { b.setAttribute("aria-pressed", b.dataset.q === k); b.textContent = tx(Q[b.dataset.q].l); });
+  }
+  qs.addEventListener("click", e => { const b = e.target.closest("button"); if (b) run(b.dataset.q); });
+  document.addEventListener("langchange", () => run(cur));
+  run("rag");
+})();
+</script>
+</body>
+</html>
